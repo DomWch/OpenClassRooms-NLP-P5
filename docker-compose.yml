@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  db:
+    restart: always
+    image: mysql/mysql-server:5.7.28
+    container_name: db
+    expose:
+      - "3306"
+    # networks:
+    #   - backend
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  mlflow:
+    restart: always
+    build:
+      context: ./
+      dockerfile: mlflow.dockerfile
+    container_name: mlflow
+    expose:
+      - "5000"
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - ./mlflow_data:/mlruns
+      - ./kaggle/data:/kaggle_data
+    # environment:
+    #   - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+    #   - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    #   - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    # command: mlflow server --host 0.0.0.0 #--backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --no-serve-artifacts
+    command: mlflow server --host 0.0.0.0 # --backend-store-uri sqlite:///mydb.sqlite
+
+  # docker exec -it mlflow bin/bash
+  nginx:
+    restart: always
+    build:
+      context: ./
+      dockerfile: nginx.dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+    depends_on:
+      - mlflow
+    init: true
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  # mlruns: {}
+  # kaggle: {}
+  dbdata:
