@@ -1,0 +1,193 @@
+[{"stream_name":"stdout","time":29.105314915,"data":"\u001b[33mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv\u001b[0m\u001b[33m\r\n"}
+,{"stream_name":"stdout","time":29.757958811,"data":"\u001b[0mNote: you may need to restart the kernel to use updated packages.\n"}
+,{"stream_name":"stdout","time":39.545060113,"data":"\u003cclass 'pandas.core.frame.DataFrame'\u003e\n"}
+,{"stream_name":"stdout","time":39.545090596,"data":"Int64Index: 118442 entries, 0 to 118441\n"}
+,{"stream_name":"stdout","time":39.545097643,"data":"Data columns (total 12 columns):\n"}
+,{"stream_name":"stdout","time":39.545103693,"data":" #   Column       Non-Null Count   Dtype \n"}
+,{"stream_name":"stdout","time":39.54510892,"data":"---  ------       --------------   ----- \n"}
+,{"stream_name":"stdout","time":39.545114612,"data":" 0   Id           118442 non-null  int64 \n"}
+,{"stream_name":"stdout","time":39.545120243,"data":" 1   Title        118442 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545125002,"data":" 2   Body         118442 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545130291,"data":" 3   0            118440 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545135199,"data":" 4   1            118383 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545140288,"data":" 5   2            118292 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545145454,"data":" 6   3            118292 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545150516,"data":" 7   4            76389 non-null   object\n"}
+,{"stream_name":"stdout","time":39.545158846,"data":" 8   5            4 non-null       object\n"}
+,{"stream_name":"stdout","time":39.545163895,"data":" 9   Title_clean  118389 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545169048,"data":" 10  Code         88202 non-null   object\n"}
+,{"stream_name":"stdout","time":39.545174079,"data":" 11  Body_clean   118392 non-null  object\n"}
+,{"stream_name":"stdout","time":39.545178956,"data":"dtypes: int64(1), object(11)\n"}
+,{"stream_name":"stdout","time":39.545184427,"data":"memory usage: 11.7+ MB\n"}
+,{"stream_name":"stdout","time":39.997211928,"data":"50\n"}
+,{"stream_name":"stdout","time":41.476600676,"data":"99.99409% des questions ont plus d'un tokens\n"}
+,{"stream_name":"stdout","time":42.373838099,"data":"\u001b[1mjava\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.373867333,"data":"\t Sur entrainement \u001b[92m12.05%\u001b[0m positif \u001b[91m87.95%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373874243,"data":"\t Sur test \u001b[92m12.02%\u001b[0m positif \u001b[91m87.98%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373879669,"data":"\n"}
+,{"stream_name":"stdout","time":42.373884997,"data":"\n"}
+,{"stream_name":"stdout","time":42.37389,"data":"\u001b[1mc#\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.373895659,"data":"\t Sur entrainement \u001b[92m11.80%\u001b[0m positif \u001b[91m88.20%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373901413,"data":"\t Sur test \u001b[92m11.73%\u001b[0m positif \u001b[91m88.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373908331,"data":"\n"}
+,{"stream_name":"stdout","time":42.373913437,"data":"\n"}
+,{"stream_name":"stdout","time":42.373918481,"data":"\u001b[1mjavascript\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.373924075,"data":"\t Sur entrainement \u001b[92m11.77%\u001b[0m positif \u001b[91m88.23%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373944292,"data":"\t Sur test \u001b[92m11.33%\u001b[0m positif \u001b[91m88.67%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373950425,"data":"\n"}
+,{"stream_name":"stdout","time":42.373956658,"data":"\n"}
+,{"stream_name":"stdout","time":42.37396254,"data":"\u001b[1mpython\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.373968231,"data":"\t Sur entrainement \u001b[92m8.61%\u001b[0m positif \u001b[91m91.39%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373974071,"data":"\t Sur test \u001b[92m8.82%\u001b[0m positif \u001b[91m91.18%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.373979992,"data":"\n"}
+,{"stream_name":"stdout","time":42.373984773,"data":"\n"}
+,{"stream_name":"stdout","time":42.37398961,"data":"\u001b[1mandroid\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.373994609,"data":"\t Sur entrainement \u001b[92m7.00%\u001b[0m positif \u001b[91m93.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.37400028,"data":"\t Sur test \u001b[92m6.91%\u001b[0m positif \u001b[91m93.09%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.37400576,"data":"\n"}
+,{"stream_name":"stdout","time":42.374010693,"data":"\n"}
+,{"stream_name":"stdout","time":42.374015492,"data":"\u001b[1mc++\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374020557,"data":"\t Sur entrainement \u001b[92m6.63%\u001b[0m positif \u001b[91m93.37%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374026023,"data":"\t Sur test \u001b[92m6.63%\u001b[0m positif \u001b[91m93.37%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374031411,"data":"\n"}
+,{"stream_name":"stdout","time":42.374036666,"data":"\n"}
+,{"stream_name":"stdout","time":42.374041758,"data":"\u001b[1mios\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374046818,"data":"\t Sur entrainement \u001b[92m6.25%\u001b[0m positif \u001b[91m93.75%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374053081,"data":"\t Sur test \u001b[92m6.21%\u001b[0m positif \u001b[91m93.79%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374059214,"data":"\n"}
+,{"stream_name":"stdout","time":42.374064169,"data":"\n"}
+,{"stream_name":"stdout","time":42.374069087,"data":"\u001b[1mhtml\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374074239,"data":"\t Sur entrainement \u001b[92m5.85%\u001b[0m positif \u001b[91m94.15%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.37407957,"data":"\t Sur test \u001b[92m5.93%\u001b[0m positif \u001b[91m94.07%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374084962,"data":"\n"}
+,{"stream_name":"stdout","time":42.374090163,"data":"\n"}
+,{"stream_name":"stdout","time":42.374095145,"data":"\u001b[1mphp\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374100192,"data":"\t Sur entrainement \u001b[92m5.56%\u001b[0m positif \u001b[91m94.44%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374105623,"data":"\t Sur test \u001b[92m5.49%\u001b[0m positif \u001b[91m94.51%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374111005,"data":"\n"}
+,{"stream_name":"stdout","time":42.374116472,"data":"\n"}
+,{"stream_name":"stdout","time":42.374121568,"data":"\u001b[1m.net\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374126776,"data":"\t Sur entrainement \u001b[92m5.34%\u001b[0m positif \u001b[91m94.66%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374130638,"data":"\t Sur test \u001b[92m5.30%\u001b[0m positif \u001b[91m94.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374134468,"data":"\n"}
+,{"stream_name":"stdout","time":42.374137887,"data":"\n"}
+,{"stream_name":"stdout","time":42.374146626,"data":"\u001b[1mjquery\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374150257,"data":"\t Sur entrainement \u001b[92m5.36%\u001b[0m positif \u001b[91m94.64%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374154004,"data":"\t Sur test \u001b[92m5.19%\u001b[0m positif \u001b[91m94.81%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374157612,"data":"\n"}
+,{"stream_name":"stdout","time":42.374161003,"data":"\n"}
+,{"stream_name":"stdout","time":42.374164492,"data":"\u001b[1mcss\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374168083,"data":"\t Sur entrainement \u001b[92m3.77%\u001b[0m positif \u001b[91m96.23%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374171796,"data":"\t Sur test \u001b[92m3.82%\u001b[0m positif \u001b[91m96.18%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.37417541,"data":"\n"}
+,{"stream_name":"stdout","time":42.374178805,"data":"\n"}
+,{"stream_name":"stdout","time":42.37418224,"data":"\u001b[1mobjective-c\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374185872,"data":"\t Sur entrainement \u001b[92m3.08%\u001b[0m positif \u001b[91m96.92%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374189581,"data":"\t Sur test \u001b[92m3.00%\u001b[0m positif \u001b[91m97.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374193349,"data":"\n"}
+,{"stream_name":"stdout","time":42.374196835,"data":"\n"}
+,{"stream_name":"stdout","time":42.374200225,"data":"\u001b[1mc\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374204047,"data":"\t Sur entrainement \u001b[92m3.08%\u001b[0m positif \u001b[91m96.92%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374207703,"data":"\t Sur test \u001b[92m2.99%\u001b[0m positif \u001b[91m97.01%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374211327,"data":"\n"}
+,{"stream_name":"stdout","time":42.374214741,"data":"\n"}
+,{"stream_name":"stdout","time":42.374218155,"data":"\u001b[1msql\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374221661,"data":"\t Sur entrainement \u001b[92m3.00%\u001b[0m positif \u001b[91m97.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374227198,"data":"\t Sur test \u001b[92m2.94%\u001b[0m positif \u001b[91m97.06%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374230878,"data":"\n"}
+,{"stream_name":"stdout","time":42.374234305,"data":"\n"}
+,{"stream_name":"stdout","time":42.374237742,"data":"\u001b[1miphone\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374241305,"data":"\t Sur entrainement \u001b[92m2.79%\u001b[0m positif \u001b[91m97.21%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374244965,"data":"\t Sur test \u001b[92m2.73%\u001b[0m positif \u001b[91m97.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374248581,"data":"\n"}
+,{"stream_name":"stdout","time":42.374251975,"data":"\n"}
+,{"stream_name":"stdout","time":42.374255476,"data":"\u001b[1masp.net\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374259,"data":"\t Sur entrainement \u001b[92m2.73%\u001b[0m positif \u001b[91m97.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374262649,"data":"\t Sur test \u001b[92m2.72%\u001b[0m positif \u001b[91m97.28%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.37426628,"data":"\n"}
+,{"stream_name":"stdout","time":42.374272158,"data":"\n"}
+,{"stream_name":"stdout","time":42.374275578,"data":"\u001b[1mmysql\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374279145,"data":"\t Sur entrainement \u001b[92m2.37%\u001b[0m positif \u001b[91m97.63%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374286229,"data":"\t Sur test \u001b[92m2.31%\u001b[0m positif \u001b[91m97.69%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374290058,"data":"\n"}
+,{"stream_name":"stdout","time":42.374293479,"data":"\n"}
+,{"stream_name":"stdout","time":42.374296882,"data":"\u001b[1mlinux\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.3743004,"data":"\t Sur entrainement \u001b[92m2.34%\u001b[0m positif \u001b[91m97.66%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374304121,"data":"\t Sur test \u001b[92m2.30%\u001b[0m positif \u001b[91m97.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374307838,"data":"\n"}
+,{"stream_name":"stdout","time":42.374311289,"data":"\n"}
+,{"stream_name":"stdout","time":42.374314722,"data":"\u001b[1mnode.js\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374318335,"data":"\t Sur entrainement \u001b[92m2.29%\u001b[0m positif \u001b[91m97.71%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374321979,"data":"\t Sur test \u001b[92m2.30%\u001b[0m positif \u001b[91m97.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374333308,"data":"\n"}
+,{"stream_name":"stdout","time":42.374336735,"data":"\n"}
+,{"stream_name":"stdout","time":42.37434017,"data":"\u001b[1mgit\u001b[0m\n"}
+,{"stream_name":"stdout","time":42.374343699,"data":"\t Sur entrainement \u001b[92m0.95%\u001b[0m positif \u001b[91m99.05%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374347404,"data":"\t Sur test \u001b[92m0.93%\u001b[0m positif \u001b[91m99.07%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":42.374351075,"data":"\n"}
+,{"stream_name":"stdout","time":42.374354605,"data":"\n"}
+,{"stream_name":"stdout","time":42.569069148,"data":"\n"}
+,{"stream_name":"stdout","time":42.569105287,"data":"******************************\n"}
+,{"stream_name":"stdout","time":42.569113286,"data":" pour min_df:1e-05; max_df:0.995\n"}
+,{"stream_name":"stdout","time":47.509542157,"data":"\ttokens unique:\n"}
+,{"stream_name":"stdout","time":47.509575347,"data":"\t\t53999 dans title et body regroupé\n"}
+,{"stream_name":"stdout","time":47.945692431,"data":"CPU times: user 3 µs, sys: 0 ns, total: 3 µs\n"}
+,{"stream_name":"stdout","time":47.945722795,"data":"Wall time: 8.11 µs\n"}
+,{"stream_name":"stdout","time":275.784028528,"data":"CPU times: user 7min 4s, sys: 7min 3s, total: 14min 8s\n"}
+,{"stream_name":"stdout","time":275.784060494,"data":"Wall time: 3min 47s\n"}
+,{"stream_name":"stdout","time":1514.483968604,"data":"CPU times: user 20min 23s, sys: 11.6 s, total: 20min 35s\n"}
+,{"stream_name":"stdout","time":1514.484010879,"data":"Wall time: 20min 35s\n"}
+,{"stream_name":"stdout","time":1930.887959756,"data":"CPU times: user 6min 57s, sys: 802 ms, total: 6min 57s\n"}
+,{"stream_name":"stdout","time":1930.887999546,"data":"Wall time: 6min 56s\n"}
+,{"stream_name":"stdout","time":1933.004389108,"data":"Build \u0026 train Word2Vec model ...\n"}
+,{"stream_name":"stdout","time":3415.469495959,"data":"Vocabulary size: 739\n"}
+,{"stream_name":"stdout","time":3415.469561562,"data":"Word2Vec trained\n"}
+,{"stream_name":"stdout","time":3415.469569322,"data":"CPU times: user 24min 41s, sys: 17.4 s, total: 24min 58s\n"}
+,{"stream_name":"stdout","time":3415.469574932,"data":"Wall time: 24min 42s\n"}
+,{"stream_name":"stdout","time":3424.056255417,"data":"Number of unique words: 163658\n"}
+,{"stream_name":"stdout","time":3424.056286529,"data":"CPU times: user 8.21 s, sys: 116 ms, total: 8.32 s\n"}
+,{"stream_name":"stdout","time":3424.056292239,"data":"Wall time: 8.52 s\n"}
+,{"stream_name":"stdout","time":3424.295532857,"data":"Create Embedding matrix ...\n"}
+,{"stream_name":"stdout","time":3425.851002933,"data":"Word embedding rate :  0.0018\n"}
+,{"stream_name":"stdout","time":3425.851036977,"data":"Embedding matrix: (163658, 300)\n"}
+,{"stream_name":"stdout","time":3425.851041849,"data":"CPU times: user 1.69 s, sys: 1.02 ms, total: 1.69 s\n"}
+,{"stream_name":"stdout","time":3425.851047702,"data":"Wall time: 1.69 s\n"}
+,{"stream_name":"stderr","time":3425.998479803,"data":"2022-12-18 15:53:02.170366: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.\n"}
+,{"stream_name":"stderr","time":3426.202538382,"data":"2022-12-18 15:53:02.170366: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.\n"}
+,{"stream_name":"stdout","time":3426.542076157,"data":"Model: \"model\"\n"}
+,{"stream_name":"stdout","time":3426.54209973,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":3426.542104252,"data":"Layer (type)                 Output Shape              Param #   \n"}
+,{"stream_name":"stdout","time":3426.542107981,"data":"=================================================================\n"}
+,{"stream_name":"stdout","time":3426.542111408,"data":"input_2 (InputLayer)         [(None, 24)]              0         \n"}
+,{"stream_name":"stdout","time":3426.54211478,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":3426.542118042,"data":"embedding (Embedding)        (None, 24, 300)           49097400  \n"}
+,{"stream_name":"stdout","time":3426.542121355,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":3426.542124548,"data":"global_average_pooling1d (Gl (None, 300)               0         \n"}
+,{"stream_name":"stdout","time":3426.542127891,"data":"=================================================================\n"}
+,{"stream_name":"stdout","time":3426.542131222,"data":"Total params: 49,097,400\n"}
+,{"stream_name":"stdout","time":3426.542134486,"data":"Trainable params: 49,097,400\n"}
+,{"stream_name":"stdout","time":3426.542137637,"data":"Non-trainable params: 0\n"}
+,{"stream_name":"stdout","time":3426.542140862,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":3426.542144138,"data":"CPU times: user 785 ms, sys: 508 ms, total: 1.29 s\n"}
+,{"stream_name":"stdout","time":3426.542147362,"data":"Wall time: 593 ms\n"}
+,{"stream_name":"stderr","time":3426.64554548,"data":"2022-12-18 15:53:02.828523: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)\n"}
+,{"stream_name":"stderr","time":3426.848251861,"data":"2022-12-18 15:53:02.828523: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)\n"}
+,{"stream_name":"stdout","time":3428.682249113,"data":"CPU times: user 2.62 s, sys: 397 ms, total: 3.01 s\n"}
+,{"stream_name":"stdout","time":3428.68227186,"data":"Wall time: 2.1 s\n"}
+,{"stream_name":"stdout","time":3429.417591117,"data":"CPU times: user 880 ms, sys: 130 ms, total: 1.01 s\n"}
+,{"stream_name":"stdout","time":3429.417615125,"data":"Wall time: 688 ms\n"}
+,{"stream_name":"stdout","time":4300.870884088,"data":"CPU times: user 14min 17s, sys: 13.7 s, total: 14min 31s\n"}
+,{"stream_name":"stdout","time":4300.870928708,"data":"Wall time: 14min 31s\n"}
+,{"stream_name":"stdout","time":4662.169853759,"data":"CPU times: user 6min, sys: 296 ms, total: 6min 1s\n"}
+,{"stream_name":"stdout","time":4662.169881535,"data":"Wall time: 6min 1s\n"}
+,{"stream_name":"stdout","time":4662.655181507,"data":"CPU times: user 3 µs, sys: 0 ns, total: 3 µs\n"}
+,{"stream_name":"stdout","time":4662.655207251,"data":"Wall time: 6.2 µs\n"}
+,{"stream_name":"stderr","time":4668.171457461,"data":"/opt/conda/lib/python3.7/site-packages/traitlets/traitlets.py:2758: FutureWarning: --Exporter.preprocessors=[\"remove_papermill_header.RemovePapermillHeader\"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.\n"}
+,{"stream_name":"stderr","time":4668.171487435,"data":"  FutureWarning,\n"}
+,{"stream_name":"stderr","time":4668.171491874,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":4668.439094774,"data":"[NbConvertApp] Writing 136404 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":4670.482823102,"data":"/opt/conda/lib/python3.7/site-packages/traitlets/traitlets.py:2758: FutureWarning: --Exporter.preprocessors=[\"nbconvert.preprocessors.ExtractOutputPreprocessor\"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.\n"}
+,{"stream_name":"stderr","time":4670.482854435,"data":"  FutureWarning,\n"}
+,{"stream_name":"stderr","time":4670.482881132,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":4671.212777336,"data":"[NbConvertApp] Writing 414084 bytes to __results__.html\n"}
+]
