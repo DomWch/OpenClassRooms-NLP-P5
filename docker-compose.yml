@@ -1,22 +1,25 @@
 version: '3.8'
 
 services:
-  db:
-    restart: always
-    image: mysql/mysql-server:5.7.28
-    container_name: db
-    expose:
-      - "3306"
-    # networks:
-    #   - backend
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - dbdata:/var/lib/mysql
+  # db:
+  #   restart: always
+  #   image: mysql/mysql-server:5.7.28
+  #   container_name: db
+  #   expose:
+  #     - "3306"
+  #   # networks:
+  #   #   - backend
+  #   environment:
+  #     - MYSQL_DATABASE=${MYSQL_DATABASE}
+  #     - MYSQL_USER=${MYSQL_USER}
+  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #   volumes:
+  #     - dbdata:/var/lib/mysql
 
+  ### to run bash inside a container: docker exec -it mlflow bin/bash
+  ### @TODO download output kaggle at new commit on kaggle branch (webhook?) with
+  ### kaggle kernels output waechter/p5-nlp-tfidf-onevsrest -p /path/to/dest
   mlflow:
     restart: always
     build:
@@ -27,18 +30,27 @@ services:
       - "5000"
     networks:
       - frontend
-      - backend
+      # - backend
     volumes:
       - ./mlflow_data:/mlruns
       - ./kaggle/data:/kaggle_data
-    # environment:
-    #   - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-    #   - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-    #   - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     # command: mlflow server --host 0.0.0.0 #--backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --no-serve-artifacts
     command: mlflow server --host 0.0.0.0 # --backend-store-uri sqlite:///mydb.sqlite
 
-  # docker exec -it mlflow bin/bash
+  api:
+    restart: always
+    build:
+      context: ./
+      dockerfile: api.dockerfile
+    container_name: api
+    expose:
+      - "8000"
+    networks:
+      - frontend
+    volumes:
+      - ./kaggle/data:/kaggle_data
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+      
   nginx:
     restart: always
     build:
@@ -51,15 +63,16 @@ services:
       - frontend
     depends_on:
       - mlflow
+      - api
     init: true
 
 networks:
   frontend:
     driver: bridge
-  backend:
-    driver: bridge
+  # backend:
+  #   driver: bridge
 
-volumes:
+# volumes:
   # mlruns: {}
   # kaggle: {}
-  dbdata:
+  # dbdata:
