@@ -33,7 +33,7 @@ services:
       # - backend
     volumes:
       - ./mlflow_data:/mlruns
-      - ./kaggle/data:/kaggle_data
+      # - ./kaggle/data:/kaggle_data
     # command: mlflow server --host 0.0.0.0 #--backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --no-serve-artifacts
     command: mlflow server --host 0.0.0.0 # --backend-store-uri sqlite:///mydb.sqlite
 
@@ -49,6 +49,7 @@ services:
       - frontend
     volumes:
       - ./kaggle/data:/kaggle_data
+      - ./api:/code/api # for dev so reload update on change
     command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
       
   nginx:

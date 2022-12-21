@@ -1,3 +1,5 @@
 kaggle/.cred/kaggle.json
 ## mypy cache
 *.pyc
+
+.vscode
