@@ -1,0 +1,25 @@
+{
+    "target_names" : [
+        "java",
+        "c#",
+        "javascript",
+        "python",
+        "android",
+        "c++",
+        "ios",
+        "html",
+        "php",
+        ".net",
+        "jquery",
+        "css",
+        "objective-c",
+        "c",
+        "sql",
+        "iphone",
+        "asp.net",
+        "mysql",
+        "linux",
+        "node.js",
+        "git"
+    ]
+}
