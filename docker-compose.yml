@@ -63,7 +63,7 @@ services:
     networks:
       - frontend
     depends_on:
-      - mlflow
+      # - mlflow
       - api
     init: true
 

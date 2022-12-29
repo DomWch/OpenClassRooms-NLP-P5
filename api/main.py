@@ -1,6 +1,7 @@
 from pathlib import Path
 from datetime import datetime
 import json
+import subprocess
 import os
 
 from fastapi import FastAPI
@@ -9,7 +10,9 @@ import joblib
 import pandas as pd
 import sklearn
 
-import subprocess
+from api.ml_class.keras_class import KerasEmbedTransformer
+
+# from api.ml_class.keras_class import KerasEmbedTransformer as KerasEmbedTransformerClass
 
 app = FastAPI()
 
@@ -39,14 +42,23 @@ async def predict(version: str, model: str):
         # "",
     ]
     path = Path(f"/kaggle_data/{version}").resolve()
+    with open(path / "description.json", "r") as f:
+        description = json.loads(f.read())
+    print("ici")
+    # KerasEmbedTransformer = KerasEmbedTransformerClass().init(description["Word2Vec"])
     pipeline = joblib.load(path / f"{model}_model.joblib")
+    print("la")
     print(pipeline)
-    f = open(path / "description.json", "r")
-    target_names = json.loads(f.read())["target_names"]
+
+    if "keras_embed_transformer" in pipeline.named_steps:
+        pipeline.named_steps["keras_embed_transformer"].load(
+            path / "keras", description["Word2Vec"]
+        )
     preds = pipeline.predict(test_sentence)
     return {
         sentence: {
-            tag_name: int(pred) for tag_name, pred in zip(target_names, pred_row)
+            tag_name: int(pred)
+            for tag_name, pred in zip(description["target_names"], pred_row)
         }
         for sentence, pred_row in zip(test_sentence, preds)
     }
