@@ -1,4 +1,6 @@
 kaggle/.cred/kaggle.json
+# for now i ignore model 
+kaggle/data/*
 ## mypy cache
 *.pyc
 
