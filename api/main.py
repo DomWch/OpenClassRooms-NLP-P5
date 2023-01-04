@@ -12,6 +12,7 @@ import sklearn
 
 # from tensorflow.keras import preprocessing as keras_preprocessing
 from tensorflow import keras
+import tensorflow as tf
 
 # from api.ml_class import kerasembedtransformerclass
 # from api.kerasembedtransformerclass.kerasembedtransformerclass import (
@@ -39,6 +40,9 @@ async def history(version: str = "**", model: str = "*"):
         # TODO verif si le model exist & si joblib sklearn ou tf keras
         if (
             Path(f"/kaggle_data/{version_name}/{model_name}_model.joblib")
+            .resolve()
+            .exists()
+            or Path(f"/kaggle_data/{version_name}/{model_name}/keras_metadata.pb")
             .resolve()
             .exists()
         ):
@@ -71,19 +75,37 @@ async def predict(version: str, model: str):
     path = Path(f"/kaggle_data/{version}").resolve()
     with open(path / "description.json", "r") as f:
         description = json.loads(f.read())
-    pipeline = joblib.load(path / f"{model}_model.joblib")
+    actifs = {
+        k: v
+        for k, v in description.items()
+        if isinstance(v, dict) and v.get("actif", False)
+    }
+    print(actifs)  #
+    # TODO read type sklearn/keras from description ?
+    if model in ["TfidfOvRSVC", "LogisticRegression"]:
+        pipeline = joblib.load(path / f"{model}_model.joblib")
+    elif model in ["kerasPipeline", "BERT"]:
+        pipeline = tf.keras.models.load_model(
+            path / model,
+            options=tf.saved_model.LoadOptions(
+                allow_partial_checkpoint=False,
+                experimental_io_device=None,
+                experimental_skip_checkpoint=True,
+                experimental_variable_policy=None,
+            ),
+        )
     print(pipeline)
 
-    if "keras_embed_transformer" in pipeline.named_steps:
-        load = kerasembedtransformerclass.KerasEmbedTransformer().load(
-            path / "keras", description["Word2Vec"]
-        )
-        print(load)
-        # pipeline.named_steps[
-        #     "keras_embed_transformer"
-        # ] = kerasembedtransformerclass.KerasEmbedTransformer().load(
-        #     path / "keras", description["Word2Vec"]
-        # )
+    # if "keras_embed_transformer" in model.named_steps:
+    #     load = kerasembedtransformerclass.KerasEmbedTransformer().load(
+    #         path / "keras", description["Word2Vec"]
+    #     )
+    #     print(load)
+    #     # pipeline.named_steps[
+    #     #     "keras_embed_transformer"
+    #     # ] = kerasembedtransformerclass.KerasEmbedTransformer().load(
+    #     #     path / "keras", description["Word2Vec"]
+    #     # )
     preds = pipeline.predict(test_sentence)
     return HTMLResponse(
         pd.DataFrame(
