@@ -1,6 +1,6 @@
 # OpenClassRooms-NLP-P5
 
-#Install
+# Install
 
 ## install docker and docker compose plugin
 ```bash
