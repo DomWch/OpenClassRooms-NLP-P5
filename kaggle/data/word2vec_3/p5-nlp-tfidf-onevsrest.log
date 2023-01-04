@@ -1,0 +1,217 @@
+[{"stream_name":"stdout","time":30.361139721,"data":"\u001b[33mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv\u001b[0m\u001b[33m\r\n"}
+,{"stream_name":"stdout","time":31.1593889,"data":"\u001b[0mNote: you may need to restart the kernel to use updated packages.\n"}
+,{"stream_name":"stdout","time":41.523936631,"data":"\u003cclass 'pandas.core.frame.DataFrame'\u003e\n"}
+,{"stream_name":"stdout","time":41.523987138,"data":"Int64Index: 118442 entries, 0 to 118441\n"}
+,{"stream_name":"stdout","time":41.523998629,"data":"Data columns (total 12 columns):\n"}
+,{"stream_name":"stdout","time":41.524005862,"data":" #   Column       Non-Null Count   Dtype \n"}
+,{"stream_name":"stdout","time":41.524013291,"data":"---  ------       --------------   ----- \n"}
+,{"stream_name":"stdout","time":41.524021168,"data":" 0   Id           118442 non-null  int64 \n"}
+,{"stream_name":"stdout","time":41.524028635,"data":" 1   Title        118442 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524035531,"data":" 2   Body         118442 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524041705,"data":" 3   0            118440 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524047376,"data":" 4   1            118383 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524053357,"data":" 5   2            118292 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524059816,"data":" 6   3            118292 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524069435,"data":" 7   4            76389 non-null   object\n"}
+,{"stream_name":"stdout","time":41.524078424,"data":" 8   5            4 non-null       object\n"}
+,{"stream_name":"stdout","time":41.524084789,"data":" 9   Title_clean  118389 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524092063,"data":" 10  Code         88202 non-null   object\n"}
+,{"stream_name":"stdout","time":41.524104915,"data":" 11  Body_clean   118392 non-null  object\n"}
+,{"stream_name":"stdout","time":41.524112044,"data":"dtypes: int64(1), object(11)\n"}
+,{"stream_name":"stdout","time":41.524118186,"data":"memory usage: 11.7+ MB\n"}
+,{"stream_name":"stdout","time":42.080411224,"data":"50\n"}
+,{"stream_name":"stdout","time":43.562280909,"data":"99.99409% des questions ont plus d'un tokens\n"}
+,{"stream_name":"stdout","time":46.199545606,"data":"\u001b[1mjava\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.199766484,"data":"\t Sur entrainement \u001b[92m12.05%\u001b[0m positif \u001b[91m87.95%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.199851619,"data":"\t Sur test \u001b[92m12.02%\u001b[0m positif \u001b[91m87.98%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.199924538,"data":"\n"}
+,{"stream_name":"stdout","time":46.199936159,"data":"\n"}
+,{"stream_name":"stdout","time":46.199942417,"data":"\u001b[1mc#\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.199947537,"data":"\t Sur entrainement \u001b[92m11.80%\u001b[0m positif \u001b[91m88.20%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.199953745,"data":"\t Sur test \u001b[92m11.73%\u001b[0m positif \u001b[91m88.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.199959421,"data":"\n"}
+,{"stream_name":"stdout","time":46.199964192,"data":"\n"}
+,{"stream_name":"stdout","time":46.199969112,"data":"\u001b[1mjavascript\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.1999742,"data":"\t Sur entrainement \u001b[92m11.77%\u001b[0m positif \u001b[91m88.23%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.199999461,"data":"\t Sur test \u001b[92m11.33%\u001b[0m positif \u001b[91m88.67%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200005851,"data":"\n"}
+,{"stream_name":"stdout","time":46.200010749,"data":"\n"}
+,{"stream_name":"stdout","time":46.20001563,"data":"\u001b[1mpython\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200020475,"data":"\t Sur entrainement \u001b[92m8.61%\u001b[0m positif \u001b[91m91.39%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.20002554,"data":"\t Sur test \u001b[92m8.82%\u001b[0m positif \u001b[91m91.18%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200030549,"data":"\n"}
+,{"stream_name":"stdout","time":46.20003524,"data":"\n"}
+,{"stream_name":"stdout","time":46.200039869,"data":"\u001b[1mandroid\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200044839,"data":"\t Sur entrainement \u001b[92m7.00%\u001b[0m positif \u001b[91m93.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200049829,"data":"\t Sur test \u001b[92m6.91%\u001b[0m positif \u001b[91m93.09%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200054737,"data":"\n"}
+,{"stream_name":"stdout","time":46.200059372,"data":"\n"}
+,{"stream_name":"stdout","time":46.200064048,"data":"\u001b[1mc++\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200069015,"data":"\t Sur entrainement \u001b[92m6.63%\u001b[0m positif \u001b[91m93.37%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200073974,"data":"\t Sur test \u001b[92m6.63%\u001b[0m positif \u001b[91m93.37%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200078845,"data":"\n"}
+,{"stream_name":"stdout","time":46.20008358,"data":"\n"}
+,{"stream_name":"stdout","time":46.200088214,"data":"\u001b[1mios\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200093204,"data":"\t Sur entrainement \u001b[92m6.25%\u001b[0m positif \u001b[91m93.75%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200098168,"data":"\t Sur test \u001b[92m6.21%\u001b[0m positif \u001b[91m93.79%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200103052,"data":"\n"}
+,{"stream_name":"stdout","time":46.200107668,"data":"\n"}
+,{"stream_name":"stdout","time":46.200112305,"data":"\u001b[1mhtml\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200117081,"data":"\t Sur entrainement \u001b[92m5.85%\u001b[0m positif \u001b[91m94.15%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200122152,"data":"\t Sur test \u001b[92m5.93%\u001b[0m positif \u001b[91m94.07%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200127072,"data":"\n"}
+,{"stream_name":"stdout","time":46.200131697,"data":"\n"}
+,{"stream_name":"stdout","time":46.200136304,"data":"\u001b[1mphp\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200141114,"data":"\t Sur entrainement \u001b[92m5.56%\u001b[0m positif \u001b[91m94.44%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200146063,"data":"\t Sur test \u001b[92m5.49%\u001b[0m positif \u001b[91m94.51%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200150942,"data":"\n"}
+,{"stream_name":"stdout","time":46.200155608,"data":"\n"}
+,{"stream_name":"stdout","time":46.200160446,"data":"\u001b[1m.net\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200165349,"data":"\t Sur entrainement \u001b[92m5.34%\u001b[0m positif \u001b[91m94.66%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200170435,"data":"\t Sur test \u001b[92m5.30%\u001b[0m positif \u001b[91m94.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.20017543,"data":"\n"}
+,{"stream_name":"stdout","time":46.200180057,"data":"\n"}
+,{"stream_name":"stdout","time":46.2001902,"data":"\u001b[1mjquery\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200195346,"data":"\t Sur entrainement \u001b[92m5.36%\u001b[0m positif \u001b[91m94.64%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.20020045,"data":"\t Sur test \u001b[92m5.19%\u001b[0m positif \u001b[91m94.81%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200205557,"data":"\n"}
+,{"stream_name":"stdout","time":46.200210208,"data":"\n"}
+,{"stream_name":"stdout","time":46.200214864,"data":"\u001b[1mcss\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.20021965,"data":"\t Sur entrainement \u001b[92m3.77%\u001b[0m positif \u001b[91m96.23%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200224598,"data":"\t Sur test \u001b[92m3.82%\u001b[0m positif \u001b[91m96.18%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200229874,"data":"\n"}
+,{"stream_name":"stdout","time":46.200234923,"data":"\n"}
+,{"stream_name":"stdout","time":46.200239616,"data":"\u001b[1mobjective-c\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200245013,"data":"\t Sur entrainement \u001b[92m3.08%\u001b[0m positif \u001b[91m96.92%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200250136,"data":"\t Sur test \u001b[92m3.00%\u001b[0m positif \u001b[91m97.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200255301,"data":"\n"}
+,{"stream_name":"stdout","time":46.200260017,"data":"\n"}
+,{"stream_name":"stdout","time":46.200264806,"data":"\u001b[1mc\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200269704,"data":"\t Sur entrainement \u001b[92m3.08%\u001b[0m positif \u001b[91m96.92%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200274872,"data":"\t Sur test \u001b[92m2.99%\u001b[0m positif \u001b[91m97.01%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200279946,"data":"\n"}
+,{"stream_name":"stdout","time":46.200284875,"data":"\n"}
+,{"stream_name":"stdout","time":46.200289563,"data":"\u001b[1msql\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200294409,"data":"\t Sur entrainement \u001b[92m3.00%\u001b[0m positif \u001b[91m97.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200300891,"data":"\t Sur test \u001b[92m2.94%\u001b[0m positif \u001b[91m97.06%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200306056,"data":"\n"}
+,{"stream_name":"stdout","time":46.200310775,"data":"\n"}
+,{"stream_name":"stdout","time":46.20031555,"data":"\u001b[1miphone\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200320435,"data":"\t Sur entrainement \u001b[92m2.79%\u001b[0m positif \u001b[91m97.21%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200325567,"data":"\t Sur test \u001b[92m2.73%\u001b[0m positif \u001b[91m97.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200330504,"data":"\n"}
+,{"stream_name":"stdout","time":46.200335271,"data":"\n"}
+,{"stream_name":"stdout","time":46.200339909,"data":"\u001b[1masp.net\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200344718,"data":"\t Sur entrainement \u001b[92m2.73%\u001b[0m positif \u001b[91m97.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200349693,"data":"\t Sur test \u001b[92m2.72%\u001b[0m positif \u001b[91m97.28%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200354581,"data":"\n"}
+,{"stream_name":"stdout","time":46.200359209,"data":"\n"}
+,{"stream_name":"stdout","time":46.200364094,"data":"\u001b[1mmysql\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200368975,"data":"\t Sur entrainement \u001b[92m2.37%\u001b[0m positif \u001b[91m97.63%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.20037846,"data":"\t Sur test \u001b[92m2.31%\u001b[0m positif \u001b[91m97.69%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200383924,"data":"\n"}
+,{"stream_name":"stdout","time":46.200388594,"data":"\n"}
+,{"stream_name":"stdout","time":46.200393349,"data":"\u001b[1mlinux\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200398288,"data":"\t Sur entrainement \u001b[92m2.34%\u001b[0m positif \u001b[91m97.66%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200403281,"data":"\t Sur test \u001b[92m2.30%\u001b[0m positif \u001b[91m97.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200408464,"data":"\n"}
+,{"stream_name":"stdout","time":46.20041321,"data":"\n"}
+,{"stream_name":"stdout","time":46.200417932,"data":"\u001b[1mnode.js\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200422826,"data":"\t Sur entrainement \u001b[92m2.29%\u001b[0m positif \u001b[91m97.71%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200427882,"data":"\t Sur test \u001b[92m2.30%\u001b[0m positif \u001b[91m97.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200433077,"data":"\n"}
+,{"stream_name":"stdout","time":46.20043779,"data":"\n"}
+,{"stream_name":"stdout","time":46.200442551,"data":"\u001b[1mgit\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.200447495,"data":"\t Sur entrainement \u001b[92m0.95%\u001b[0m positif \u001b[91m99.05%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200452732,"data":"\t Sur test \u001b[92m0.93%\u001b[0m positif \u001b[91m99.07%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.200457849,"data":"\n"}
+,{"stream_name":"stdout","time":46.20046262,"data":"\n"}
+,{"stream_name":"stdout","time":46.384566761,"data":"\n"}
+,{"stream_name":"stdout","time":46.384650901,"data":"******************************\n"}
+,{"stream_name":"stdout","time":46.384663101,"data":" pour min_df:1e-05; max_df:0.995\n"}
+,{"stream_name":"stdout","time":51.345825851,"data":"\ttokens unique:\n"}
+,{"stream_name":"stdout","time":51.345917844,"data":"\t\t53999 dans title et body regroupé\n"}
+,{"stream_name":"stdout","time":51.456586122,"data":"CPU times: user 4 µs, sys: 0 ns, total: 4 µs\n"}
+,{"stream_name":"stdout","time":51.456638759,"data":"Wall time: 8.34 µs\n"}
+,{"stream_name":"stdout","time":51.730174794,"data":"CPU times: user 5 µs, sys: 0 ns, total: 5 µs\n"}
+,{"stream_name":"stdout","time":51.730228951,"data":"Wall time: 9.06 µs\n"}
+,{"stream_name":"stdout","time":51.98238153,"data":"CPU times: user 5 µs, sys: 0 ns, total: 5 µs\n"}
+,{"stream_name":"stdout","time":51.982431139,"data":"Wall time: 8.34 µs\n"}
+,{"stream_name":"stdout","time":52.036241632,"data":"CPU times: user 4 µs, sys: 0 ns, total: 4 µs\n"}
+,{"stream_name":"stdout","time":52.036291926,"data":"Wall time: 8.82 µs\n"}
+,{"stream_name":"stdout","time":52.668859073,"data":"Build \u0026 train Word2Vec model ...\n"}
+,{"stream_name":"stdout","time":1799.151528701,"data":"Vocabulary size: 210897\n"}
+,{"stream_name":"stdout","time":1799.151562923,"data":"Word2Vec trained\n"}
+,{"stream_name":"stdout","time":1803.797870493,"data":"Number of unique words: 210898\n"}
+,{"stream_name":"stdout","time":1803.79790384,"data":"Create Embedding matrix ...\n"}
+,{"stream_name":"stderr","time":2927.271585374,"data":"2022-12-27 13:41:10.672285: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.\n"}
+,{"stream_name":"stdout","time":2927.464627786,"data":"Word embedding rate :  1.0\n"}
+,{"stream_name":"stdout","time":2927.464676364,"data":"Embedding matrix: (210898, 500)\n"}
+,{"stream_name":"stderr","time":2927.475024109,"data":"2022-12-27 13:41:10.672285: I tensorflow/core/common_runtime/process_util.cc:146] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.\n"}
+,{"stream_name":"stdout","time":2928.895300186,"data":"Model: \"model\"\n"}
+,{"stream_name":"stdout","time":2928.895327885,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":2928.895333324,"data":"Layer (type)                 Output Shape              Param #   \n"}
+,{"stream_name":"stdout","time":2928.895337895,"data":"=================================================================\n"}
+,{"stream_name":"stdout","time":2928.895342269,"data":"input_1 (InputLayer)         [(None, 30)]              0         \n"}
+,{"stream_name":"stdout","time":2928.895346848,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":2928.895350992,"data":"embedding (Embedding)        (None, 30, 500)           105449000 \n"}
+,{"stream_name":"stdout","time":2928.895355219,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":2928.895359433,"data":"global_average_pooling1d (Gl (None, 500)               0         \n"}
+,{"stream_name":"stdout","time":2928.895363669,"data":"=================================================================\n"}
+,{"stream_name":"stdout","time":2928.895367873,"data":"Total params: 105,449,000\n"}
+,{"stream_name":"stdout","time":2928.895372357,"data":"Trainable params: 105,449,000\n"}
+,{"stream_name":"stdout","time":2928.895376431,"data":"Non-trainable params: 0\n"}
+,{"stream_name":"stdout","time":2928.895380616,"data":"_________________________________________________________________\n"}
+,{"stream_name":"stdout","time":2928.895384794,"data":"None\n"}
+,{"stream_name":"stderr","time":2932.906000856,"data":"2022-12-27 13:41:16.317812: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)\n"}
+,{"stream_name":"stderr","time":2933.109744909,"data":"2022-12-27 13:41:16.317812: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)\n"}
+,{"stream_name":"stdout","time":2935.900825627,"data":"embedings shape  (88831, 500)\n"}
+,{"stream_name":"stdout","time":8648.822225325,"data":"CPU times: user 2h 22min 58s, sys: 27.4 s, total: 2h 23min 25s\n"}
+,{"stream_name":"stdout","time":8648.822247773,"data":"Wall time: 2h 23min 16s\n"}
+,{"stream_name":"stdout","time":8651.160939815,"data":"embedings shape  (29611, 500)\n"}
+,{"stream_name":"stdout","time":11503.17238217,"data":"[[1 0 1 ... 0 0 0]\n"}
+,{"stream_name":"stdout","time":11503.172476612,"data":" [1 1 1 ... 0 0 0]\n"}
+,{"stream_name":"stdout","time":11503.172595266,"data":" [1 1 1 ... 0 0 0]\n"}
+,{"stream_name":"stdout","time":11503.172683944,"data":" ...\n"}
+,{"stream_name":"stdout","time":11503.172703408,"data":" [1 1 1 ... 0 0 0]\n"}
+,{"stream_name":"stdout","time":11503.172713012,"data":" [0 0 1 ... 0 0 0]\n"}
+,{"stream_name":"stdout","time":11503.172722135,"data":" [1 1 1 ... 0 0 0]]\n"}
+,{"stream_name":"stdout","time":11503.172733956,"data":"CPU times: user 47min 33s, sys: 677 ms, total: 47min 34s\n"}
+,{"stream_name":"stdout","time":11503.172742334,"data":"Wall time: 47min 34s\n"}
+,{"stream_name":"stderr","time":11503.491665269,"data":"2022-12-27 16:04:06.898278: W tensorflow/python/util/util.cc:348] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.\n"}
+,{"stream_name":"stderr","time":11503.722111376,"data":"2022-12-27 16:04:06.898278: W tensorflow/python/util/util.cc:348] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.\n"}
+,{"stream_name":"stdout","time":11512.098897198,"data":"              precision    recall  f1-score  support\n"}
+,{"stream_name":"stdout","time":11512.09901073,"data":"android        0.911095  0.626406  0.742394   2045.0\n"}
+,{"stream_name":"stdout","time":11512.099044789,"data":"c              0.900000  0.030508  0.059016    885.0\n"}
+,{"stream_name":"stdout","time":11512.099052988,"data":"mysql          0.891403  0.287591  0.434879    685.0\n"}
+,{"stream_name":"stdout","time":11512.099059825,"data":"git            0.888325  0.638686  0.743100    274.0\n"}
+,{"stream_name":"stdout","time":11512.099065906,"data":"php            0.868700  0.402581  0.550189   1627.0\n"}
+,{"stream_name":"stdout","time":11512.099072012,"data":"python         0.854473  0.577718  0.689356   2612.0\n"}
+,{"stream_name":"stdout","time":11512.099088984,"data":"css            0.844063  0.521662  0.644809   1131.0\n"}
+,{"stream_name":"stdout","time":11512.099095142,"data":"jquery         0.818783  0.402471  0.539669   1538.0\n"}
+,{"stream_name":"stdout","time":11512.099100979,"data":".net           0.809524  0.010835  0.021384   1569.0\n"}
+,{"stream_name":"stdout","time":11512.099106776,"data":"node.js        0.808333  0.142229  0.241895    682.0\n"}
+,{"stream_name":"stdout","time":11512.099113521,"data":"objective-c    0.800000  0.004505  0.008959    888.0\n"}
+,{"stream_name":"stdout","time":11512.099119617,"data":"asp.net        0.772727  0.042236  0.080094    805.0\n"}
+,{"stream_name":"stdout","time":11512.099125708,"data":"ios            0.766453  0.519022  0.618924   1840.0\n"}
+,{"stream_name":"stdout","time":11512.099132135,"data":"c++            0.754613  0.416497  0.536745   1964.0\n"}
+,{"stream_name":"stdout","time":11512.099141784,"data":"iphone         0.689655  0.024783  0.047847    807.0\n"}
+,{"stream_name":"stdout","time":11512.099147715,"data":"html           0.689298  0.341311  0.456555   1755.0\n"}
+,{"stream_name":"stdout","time":11512.099153765,"data":"sql            0.678201  0.225287  0.338223    870.0\n"}
+,{"stream_name":"stdout","time":11512.099159741,"data":"macro avg      0.675026  0.386161  0.357209  33044.0\n"}
+,{"stream_name":"stdout","time":11512.099166602,"data":"weighted avg   0.583005  0.539160  0.378710  33044.0\n"}
+,{"stream_name":"stdout","time":11512.099173073,"data":"samples avg    0.230279  0.452356  0.286931  33044.0\n"}
+,{"stream_name":"stdout","time":11512.099179028,"data":"micro avg      0.222064  0.539160  0.314567  33044.0\n"}
+,{"stream_name":"stdout","time":11512.099184684,"data":"c#             0.162686  0.929744  0.276918   3473.0\n"}
+,{"stream_name":"stdout","time":11512.099190489,"data":"java           0.136887  0.982293  0.240289   3558.0\n"}
+,{"stream_name":"stdout","time":11512.09919638,"data":"javascript     0.130328  0.983015  0.230144   3356.0\n"}
+,{"stream_name":"stdout","time":11512.099202654,"data":"linux          0.000000  0.000000  0.000000    680.0\n"}
+,{"stream_name":"stderr","time":11518.586464909,"data":"/opt/conda/lib/python3.7/site-packages/traitlets/traitlets.py:2758: FutureWarning: --Exporter.preprocessors=[\"remove_papermill_header.RemovePapermillHeader\"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.\n"}
+,{"stream_name":"stderr","time":11518.586505303,"data":"  FutureWarning,\n"}
+,{"stream_name":"stderr","time":11518.586511697,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":11518.930712368,"data":"[NbConvertApp] Writing 136375 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":11521.507898635,"data":"/opt/conda/lib/python3.7/site-packages/traitlets/traitlets.py:2758: FutureWarning: --Exporter.preprocessors=[\"nbconvert.preprocessors.ExtractOutputPreprocessor\"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.\n"}
+,{"stream_name":"stderr","time":11521.507952071,"data":"  FutureWarning,\n"}
+,{"stream_name":"stderr","time":11521.507962375,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":11522.427193456,"data":"[NbConvertApp] Writing 422334 bytes to __results__.html\n"}
+]

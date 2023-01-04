@@ -18,25 +18,25 @@ services:
   #     - dbdata:/var/lib/mysql
 
   ### to run bash inside a container: docker exec -it mlflow bin/bash
+  # mlflow:
+  #   restart: always
+  #   build:
+  #     context: ./
+  #     dockerfile: mlflow.dockerfile
+  #   container_name: mlflow
+  #   expose:
+  #     - "5000"
+  #   networks:
+  #     - frontend
+  #     # - backend
+  #   volumes:
+  #     - ./mlflow_data:/mlruns
+  #     # - ./kaggle/data:/kaggle_data
+  #   # command: mlflow server --host 0.0.0.0 #--backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --no-serve-artifacts
+  #   command: mlflow server --host 0.0.0.0 # --backend-store-uri sqlite:///mydb.sqlite
+
   ### @TODO download output kaggle at new commit on kaggle branch (webhook?) with
   ### kaggle kernels output waechter/p5-nlp-tfidf-onevsrest -p /path/to/dest
-  mlflow:
-    restart: always
-    build:
-      context: ./
-      dockerfile: mlflow.dockerfile
-    container_name: mlflow
-    expose:
-      - "5000"
-    networks:
-      - frontend
-      # - backend
-    volumes:
-      - ./mlflow_data:/mlruns
-      # - ./kaggle/data:/kaggle_data
-    # command: mlflow server --host 0.0.0.0 #--backend-store-uri mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE} --no-serve-artifacts
-    command: mlflow server --host 0.0.0.0 # --backend-store-uri sqlite:///mydb.sqlite
-
   api:
     restart: always
     build:
@@ -63,7 +63,7 @@ services:
     networks:
       - frontend
     depends_on:
-      - mlflow
+      # - mlflow
       - api
     init: true
 

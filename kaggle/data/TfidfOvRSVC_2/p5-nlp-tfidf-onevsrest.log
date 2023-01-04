@@ -1,0 +1,158 @@
+[{"stream_name":"stdout","time":32.934239042,"data":"\u001b[33mWARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv\u001b[0m\u001b[33m\r\n"}
+,{"stream_name":"stdout","time":33.631965786,"data":"\u001b[0mNote: you may need to restart the kernel to use updated packages.\n"}
+,{"stream_name":"stdout","time":43.225594565,"data":"\u003cclass 'pandas.core.frame.DataFrame'\u003e\n"}
+,{"stream_name":"stdout","time":43.225927967,"data":"Int64Index: 118442 entries, 0 to 118441\n"}
+,{"stream_name":"stdout","time":43.225955051,"data":"Data columns (total 12 columns):\n"}
+,{"stream_name":"stdout","time":43.225964829,"data":" #   Column       Non-Null Count   Dtype \n"}
+,{"stream_name":"stdout","time":43.225971813,"data":"---  ------       --------------   ----- \n"}
+,{"stream_name":"stdout","time":43.225978505,"data":" 0   Id           118442 non-null  int64 \n"}
+,{"stream_name":"stdout","time":43.225984771,"data":" 1   Title        118442 non-null  object\n"}
+,{"stream_name":"stdout","time":43.225990496,"data":" 2   Body         118442 non-null  object\n"}
+,{"stream_name":"stdout","time":43.225996416,"data":" 3   0            118440 non-null  object\n"}
+,{"stream_name":"stdout","time":43.226002459,"data":" 4   1            118383 non-null  object\n"}
+,{"stream_name":"stdout","time":43.226008216,"data":" 5   2            118292 non-null  object\n"}
+,{"stream_name":"stdout","time":43.226014322,"data":" 6   3            118292 non-null  object\n"}
+,{"stream_name":"stdout","time":43.226019942,"data":" 7   4            76389 non-null   object\n"}
+,{"stream_name":"stdout","time":43.226026723,"data":" 8   5            4 non-null       object\n"}
+,{"stream_name":"stdout","time":43.226032765,"data":" 9   Title_clean  118389 non-null  object\n"}
+,{"stream_name":"stdout","time":43.226038671,"data":" 10  Code         88202 non-null   object\n"}
+,{"stream_name":"stdout","time":43.226044827,"data":" 11  Body_clean   118392 non-null  object\n"}
+,{"stream_name":"stdout","time":43.226050619,"data":"dtypes: int64(1), object(11)\n"}
+,{"stream_name":"stdout","time":43.226056168,"data":"memory usage: 11.7+ MB\n"}
+,{"stream_name":"stdout","time":43.790867606,"data":"50\n"}
+,{"stream_name":"stdout","time":45.367150768,"data":"99.99409% des questions ont plus d'un tokens\n"}
+,{"stream_name":"stdout","time":46.288494889,"data":"\u001b[1mjava\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288553613,"data":"\t Sur entrainement \u001b[92m12.05%\u001b[0m positif \u001b[91m87.95%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288565685,"data":"\t Sur test \u001b[92m12.02%\u001b[0m positif \u001b[91m87.98%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288573103,"data":"\n"}
+,{"stream_name":"stdout","time":46.288579535,"data":"\n"}
+,{"stream_name":"stdout","time":46.288586347,"data":"\u001b[1mc#\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288593077,"data":"\t Sur entrainement \u001b[92m11.80%\u001b[0m positif \u001b[91m88.20%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288599895,"data":"\t Sur test \u001b[92m11.73%\u001b[0m positif \u001b[91m88.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288612295,"data":"\n"}
+,{"stream_name":"stdout","time":46.288617839,"data":"\n"}
+,{"stream_name":"stdout","time":46.288623666,"data":"\u001b[1mjavascript\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.28862982,"data":"\t Sur entrainement \u001b[92m11.77%\u001b[0m positif \u001b[91m88.23%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288651447,"data":"\t Sur test \u001b[92m11.33%\u001b[0m positif \u001b[91m88.67%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288658352,"data":"\n"}
+,{"stream_name":"stdout","time":46.288665402,"data":"\n"}
+,{"stream_name":"stdout","time":46.288672663,"data":"\u001b[1mpython\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288678704,"data":"\t Sur entrainement \u001b[92m8.61%\u001b[0m positif \u001b[91m91.39%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288685046,"data":"\t Sur test \u001b[92m8.82%\u001b[0m positif \u001b[91m91.18%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288691319,"data":"\n"}
+,{"stream_name":"stdout","time":46.28869716,"data":"\n"}
+,{"stream_name":"stdout","time":46.28870329,"data":"\u001b[1mandroid\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288709546,"data":"\t Sur entrainement \u001b[92m7.00%\u001b[0m positif \u001b[91m93.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288715929,"data":"\t Sur test \u001b[92m6.91%\u001b[0m positif \u001b[91m93.09%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288722412,"data":"\n"}
+,{"stream_name":"stdout","time":46.288728203,"data":"\n"}
+,{"stream_name":"stdout","time":46.288734406,"data":"\u001b[1mc++\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288740837,"data":"\t Sur entrainement \u001b[92m6.63%\u001b[0m positif \u001b[91m93.37%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288747764,"data":"\t Sur test \u001b[92m6.63%\u001b[0m positif \u001b[91m93.37%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288754077,"data":"\n"}
+,{"stream_name":"stdout","time":46.288761305,"data":"\n"}
+,{"stream_name":"stdout","time":46.288767899,"data":"\u001b[1mios\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288774438,"data":"\t Sur entrainement \u001b[92m6.25%\u001b[0m positif \u001b[91m93.75%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288780351,"data":"\t Sur test \u001b[92m6.21%\u001b[0m positif \u001b[91m93.79%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288786771,"data":"\n"}
+,{"stream_name":"stdout","time":46.288792611,"data":"\n"}
+,{"stream_name":"stdout","time":46.288798261,"data":"\u001b[1mhtml\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.2888041,"data":"\t Sur entrainement \u001b[92m5.85%\u001b[0m positif \u001b[91m94.15%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288810705,"data":"\t Sur test \u001b[92m5.93%\u001b[0m positif \u001b[91m94.07%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288817178,"data":"\n"}
+,{"stream_name":"stdout","time":46.28882314,"data":"\n"}
+,{"stream_name":"stdout","time":46.288839582,"data":"\u001b[1mphp\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288848576,"data":"\t Sur entrainement \u001b[92m5.56%\u001b[0m positif \u001b[91m94.44%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288858872,"data":"\t Sur test \u001b[92m5.49%\u001b[0m positif \u001b[91m94.51%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288870629,"data":"\n"}
+,{"stream_name":"stdout","time":46.288877649,"data":"\n"}
+,{"stream_name":"stdout","time":46.28888423,"data":"\u001b[1m.net\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.288890903,"data":"\t Sur entrainement \u001b[92m5.34%\u001b[0m positif \u001b[91m94.66%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288898162,"data":"\t Sur test \u001b[92m5.30%\u001b[0m positif \u001b[91m94.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288911046,"data":"\n"}
+,{"stream_name":"stdout","time":46.288937944,"data":"\n"}
+,{"stream_name":"stdout","time":46.288958601,"data":"\u001b[1mjquery\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.28897212,"data":"\t Sur entrainement \u001b[92m5.36%\u001b[0m positif \u001b[91m94.64%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288982354,"data":"\t Sur test \u001b[92m5.19%\u001b[0m positif \u001b[91m94.81%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.288995938,"data":"\n"}
+,{"stream_name":"stdout","time":46.289014523,"data":"\n"}
+,{"stream_name":"stdout","time":46.289027082,"data":"\u001b[1mcss\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289033626,"data":"\t Sur entrainement \u001b[92m3.77%\u001b[0m positif \u001b[91m96.23%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289039784,"data":"\t Sur test \u001b[92m3.82%\u001b[0m positif \u001b[91m96.18%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289045875,"data":"\n"}
+,{"stream_name":"stdout","time":46.289051958,"data":"\n"}
+,{"stream_name":"stdout","time":46.289057493,"data":"\u001b[1mobjective-c\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289064577,"data":"\t Sur entrainement \u001b[92m3.08%\u001b[0m positif \u001b[91m96.92%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289075837,"data":"\t Sur test \u001b[92m3.00%\u001b[0m positif \u001b[91m97.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289088149,"data":"\n"}
+,{"stream_name":"stdout","time":46.289093743,"data":"\n"}
+,{"stream_name":"stdout","time":46.289099887,"data":"\u001b[1mc\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289110886,"data":"\t Sur entrainement \u001b[92m3.08%\u001b[0m positif \u001b[91m96.92%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289123169,"data":"\t Sur test \u001b[92m2.99%\u001b[0m positif \u001b[91m97.01%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289132405,"data":"\n"}
+,{"stream_name":"stdout","time":46.289139165,"data":"\n"}
+,{"stream_name":"stdout","time":46.289144651,"data":"\u001b[1msql\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289150378,"data":"\t Sur entrainement \u001b[92m3.00%\u001b[0m positif \u001b[91m97.00%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289159589,"data":"\t Sur test \u001b[92m2.94%\u001b[0m positif \u001b[91m97.06%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289167246,"data":"\n"}
+,{"stream_name":"stdout","time":46.289173455,"data":"\n"}
+,{"stream_name":"stdout","time":46.289182972,"data":"\u001b[1miphone\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289193624,"data":"\t Sur entrainement \u001b[92m2.79%\u001b[0m positif \u001b[91m97.21%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289204099,"data":"\t Sur test \u001b[92m2.73%\u001b[0m positif \u001b[91m97.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289211152,"data":"\n"}
+,{"stream_name":"stdout","time":46.289217015,"data":"\n"}
+,{"stream_name":"stdout","time":46.289223053,"data":"\u001b[1masp.net\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289228998,"data":"\t Sur entrainement \u001b[92m2.73%\u001b[0m positif \u001b[91m97.27%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289235525,"data":"\t Sur test \u001b[92m2.72%\u001b[0m positif \u001b[91m97.28%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289242085,"data":"\n"}
+,{"stream_name":"stdout","time":46.289248896,"data":"\n"}
+,{"stream_name":"stdout","time":46.289258963,"data":"\u001b[1mmysql\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289273103,"data":"\t Sur entrainement \u001b[92m2.37%\u001b[0m positif \u001b[91m97.63%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289295395,"data":"\t Sur test \u001b[92m2.31%\u001b[0m positif \u001b[91m97.69%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289303636,"data":"\n"}
+,{"stream_name":"stdout","time":46.289309737,"data":"\n"}
+,{"stream_name":"stdout","time":46.2893158,"data":"\u001b[1mlinux\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289322129,"data":"\t Sur entrainement \u001b[92m2.34%\u001b[0m positif \u001b[91m97.66%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289328619,"data":"\t Sur test \u001b[92m2.30%\u001b[0m positif \u001b[91m97.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289335086,"data":"\n"}
+,{"stream_name":"stdout","time":46.289340521,"data":"\n"}
+,{"stream_name":"stdout","time":46.289346598,"data":"\u001b[1mnode.js\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289355476,"data":"\t Sur entrainement \u001b[92m2.29%\u001b[0m positif \u001b[91m97.71%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289367652,"data":"\t Sur test \u001b[92m2.30%\u001b[0m positif \u001b[91m97.70%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289381162,"data":"\n"}
+,{"stream_name":"stdout","time":46.289392855,"data":"\n"}
+,{"stream_name":"stdout","time":46.289400077,"data":"\u001b[1mgit\u001b[0m\n"}
+,{"stream_name":"stdout","time":46.289406867,"data":"\t Sur entrainement \u001b[92m0.95%\u001b[0m positif \u001b[91m99.05%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.28941342,"data":"\t Sur test \u001b[92m0.93%\u001b[0m positif \u001b[91m99.07%\u001b[0m negatif\n"}
+,{"stream_name":"stdout","time":46.289419695,"data":"\n"}
+,{"stream_name":"stdout","time":46.289425648,"data":"\n"}
+,{"stream_name":"stdout","time":46.504791042,"data":"\n"}
+,{"stream_name":"stdout","time":46.504840094,"data":"******************************\n"}
+,{"stream_name":"stdout","time":46.504878184,"data":" pour min_df:1e-05; max_df:0.995\n"}
+,{"stream_name":"stdout","time":51.80918407,"data":"\ttokens unique:\n"}
+,{"stream_name":"stdout","time":51.809227484,"data":"\t\t53999 dans title et body regroupé\n"}
+,{"stream_name":"stdout","time":51.923239494,"data":"CPU times: user 4 µs, sys: 0 ns, total: 4 µs\n"}
+,{"stream_name":"stdout","time":51.923287947,"data":"Wall time: 10 µs\n"}
+,{"stream_name":"stdout","time":52.247901161,"data":"CPU times: user 8 µs, sys: 0 ns, total: 8 µs\n"}
+,{"stream_name":"stdout","time":52.247968989,"data":"Wall time: 11.9 µs\n"}
+,{"stream_name":"stdout","time":7047.366366699,"data":"CPU times: user 1h 56min 18s, sys: 8.55 s, total: 1h 56min 26s\n"}
+,{"stream_name":"stdout","time":7047.366613457,"data":"Wall time: 1h 56min 34s\n"}
+,{"stream_name":"stdout","time":9483.615911572,"data":"CPU times: user 40min 39s, sys: 6.51 s, total: 40min 46s\n"}
+,{"stream_name":"stdout","time":9483.61601375,"data":"Wall time: 40min 36s\n"}
+,{"stream_name":"stdout","time":9485.750452218,"data":"CPU times: user 9 µs, sys: 0 ns, total: 9 µs\n"}
+,{"stream_name":"stdout","time":9485.750513007,"data":"Wall time: 16.2 µs\n"}
+,{"stream_name":"stdout","time":9485.879553999,"data":"CPU times: user 6 µs, sys: 0 ns, total: 6 µs\n"}
+,{"stream_name":"stdout","time":9485.879615857,"data":"Wall time: 10.3 µs\n"}
+,{"stream_name":"stdout","time":9485.954273983,"data":"CPU times: user 6 µs, sys: 0 ns, total: 6 µs\n"}
+,{"stream_name":"stdout","time":9485.954316134,"data":"Wall time: 10.3 µs\n"}
+,{"stream_name":"stdout","time":9486.003509993,"data":"CPU times: user 7 µs, sys: 0 ns, total: 7 µs\n"}
+,{"stream_name":"stdout","time":9486.003566099,"data":"Wall time: 13.1 µs\n"}
+,{"stream_name":"stderr","time":9492.395354022,"data":"/opt/conda/lib/python3.7/site-packages/traitlets/traitlets.py:2758: FutureWarning: --Exporter.preprocessors=[\"remove_papermill_header.RemovePapermillHeader\"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.\n"}
+,{"stream_name":"stderr","time":9492.395480847,"data":"  FutureWarning,\n"}
+,{"stream_name":"stderr","time":9492.39549171,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":9492.74888013,"data":"[NbConvertApp] Writing 77675 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":9495.412818836,"data":"/opt/conda/lib/python3.7/site-packages/traitlets/traitlets.py:2758: FutureWarning: --Exporter.preprocessors=[\"nbconvert.preprocessors.ExtractOutputPreprocessor\"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.\n"}
+,{"stream_name":"stderr","time":9495.412878794,"data":"  FutureWarning,\n"}
+,{"stream_name":"stderr","time":9495.412884756,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":9496.397963783,"data":"[NbConvertApp] Writing 381427 bytes to __results__.html\n"}
+]

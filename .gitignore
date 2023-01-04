@@ -1,4 +1,11 @@
 kaggle/.cred/kaggle.json
+# for now i ignore model 
+kaggle/data/*/*.joblib
+kaggle/data/*/*.log
+kaggle/data/*/naive_is_in_score.csv
+kaggle/data/*/*.model/*
+kaggle/data/*/*.tokenizer
+kaggle/data/*/kerasPipeline/
 ## mypy cache
 *.pyc
 
