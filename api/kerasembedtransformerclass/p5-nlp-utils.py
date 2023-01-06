@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import gensim
-import pyLDAvis
+import pyLDAvis.gensim as pyLDA
 from sklearn.base import BaseEstimator, TransformerMixin
 from tensorflow import keras
 from sklearn import (
@@ -220,7 +220,7 @@ class LDA:
 
     def prepare_display(self, sort_topics=False):
         #https://pyldavis.readthedocs.io/en/latest/modules/API.html#pyLDAvis.prepare
-        self.display_data=pyLDAvis.gensim.prepare(
+        self.display_data=pyLDA.prepare(
             self.model, self.corpus, self.dictionary, sort_topics=sort_topics
         )
         return self
