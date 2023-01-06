@@ -30,9 +30,18 @@ async def root():
     return {"message": "Hello World"}
 
 
+CSS = "table{border-collapse: collapse;}"
+TEMPLATE_ROOT = (
+    "<html><head><style>{css}</style></head><body>{body}<body></html>"  # body
+)
+TEMPLATE_SCORES_ALL = "<div>Synthese f1-scores par modéle</div>{synthese}</br>{scores_html}"  # scores_syntheses, X*TEMPLATE_SCORES
+TEMPLATE_SCORES = "Version: {version} Model: {model_link} {date}</br>{scores_html}</br></br>"  # version_name, link_model, datetime.fromtimestamp(score.stat().st_mtime).strftime('%A %d %B %Y %H:%M'), score_df.to_html()
+TEMPLATE_LINK = "<a href='/predict/{version_name}/{model_name}'>{model_name}</a>"
+
+
 @app.get("/score_history")
 async def history(version: str = "**", model: str = "*"):
-    rep = "<style>table{border-collapse: collapse;}</style>"
+    rep = ""
     scoresf1 = {}
     for score in Path("/kaggle_data").glob(f"{version}/{model}_score.csv"):
         version_name = score.parent.name
@@ -46,20 +55,33 @@ async def history(version: str = "**", model: str = "*"):
             .resolve()
             .exists()
         ):
-            link = f"<a href='/predict/{version_name}/{model_name}'>{model_name}</a>"
+            model_link = TEMPLATE_LINK.format(
+                version_name=version_name, model_name=model_name
+            )
+
         else:
-            link = model_name
+            model_link = model_name
         score_df = pd.read_csv(score, index_col=0)
         # @TODO filter naive identique
         scoresf1[f"{version_name}_{model_name}"] = score_df["f1-score"][
             ["micro avg", "macro avg", "weighted avg", "samples avg"]
         ]
-        rep += f"Version: {version_name} Model: {link} {datetime.fromtimestamp(score.stat().st_mtime).strftime('%A %d %B %Y %H:%M')}</br>{score_df.to_html()}</br></br>"
+        rep += TEMPLATE_SCORES.format(
+            version=version_name,
+            model_link=model_link,
+            date=datetime.fromtimestamp(score.stat().st_mtime).strftime(
+                "%A %d %B %Y %H:%M"
+            ),
+            scores_html=score_df.to_html(),
+        )
     scoresf1 = pd.DataFrame(scoresf1).T.sort_values(by="micro avg", ascending=False)
-    # return HTMLResponse(rep)
-    # print(scoresf1["micro avg"].sort_values())
     return HTMLResponse(
-        f"<div>Synthese f1-scores par modéle</div>{scoresf1.to_html()}</br>{rep}"
+        TEMPLATE_ROOT.format(
+            css=CSS,
+            body=TEMPLATE_SCORES_ALL.format(
+                synthese=scoresf1.to_html(), scores_html=rep
+            ),
+        )
     )
 
 
@@ -120,10 +142,11 @@ async def predict(version: str, model: str):
     )
 
 
-@app.get("/download_history/{name}")
+@app.get("/download_output/{name}")
 async def download_history(name: str):
-    # @TODO controle sur name
-    # os.mkdir(f"/kaggle_data/{name}", mode=0o755)
+    current_time = datetime.now()
+    name = f"{name}_{current_time.month}_{current_time.day}_{current_time.hour}_{current_time.minute}"
+    # print(name)
     process = subprocess.Popen(
         f"kaggle kernels output waechter/p5-nlp-tfidf-onevsrest -p /kaggle_data/{name}".split(),
         stdout=subprocess.PIPE,
