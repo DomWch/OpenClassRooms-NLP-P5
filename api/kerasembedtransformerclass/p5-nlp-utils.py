@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import gensim
-import pyLDAvis.gensim
+import pyLDAvis
 from sklearn.base import BaseEstimator, TransformerMixin
 from tensorflow import keras
 from sklearn import (
