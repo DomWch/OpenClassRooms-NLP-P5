@@ -34,6 +34,7 @@ from transformers import (
     BertConfig,
 )  # BertModel
 from tokenizers import BertWordPieceTokenizer
+import tensorflow as tf
 
 
 class Commun:
@@ -226,21 +227,118 @@ class LDA:
         return self
 
 
-# class Bert():
-#     @staticmethod
-#     def get_tokenizer(model_max_length,save_path = "bert_base_uncased/"):
-#         if not os.path.exists(save_path):
-#             slow_tokenizer = BertTokenizer.from_pretrained(
-#                 "bert-base-uncased", model_max_length=model_max_length
-#             )
-#             try:
-#                 os.makedirs(save_path)
-#             except OSError:
-#                 pass
-#         slow_tokenizer.save_pretrained(save_path)
-#         # from https://keras.io/examples/nlp/text_extraction_with_bert/
-#         # Load the fast tokenizer from saved file
-#         return BertWordPieceTokenizer("bert_base_uncased/vocab.txt", lowercase=True)
+class Bert:
+    @staticmethod
+    def get_tokenizer(model_max_length, save_path="bert_base_uncased/"):
+        if not os.path.exists(save_path):
+            slow_tokenizer = BertTokenizer.from_pretrained(
+                "bert-base-uncased", model_max_length=model_max_length
+            )
+            try:
+                os.makedirs(save_path)
+            except OSError:
+                pass
+            slow_tokenizer.save_pretrained(save_path)
+        # from https://keras.io/examples/nlp/text_extraction_with_bert/
+        # Load the fast tokenizer from saved file
+        return BertWordPieceTokenizer("bert_base_uncased/vocab.txt", lowercase=True)
+
+    @staticmethod
+    def create_bert_input(sentence: str, params: dict):
+        x_encoded = Bert.get_tokenizer().encode(sentence)
+        x_encoded.truncate(params["max_length"])
+        x_encoded.pad(params["max_length"])
+        #     print(len(x_encoded.ids))
+        #     print(len(x_encoded.attention_mask))
+        #     params["max_length"]
+        #     return np.array(
+        #         [
+        #             np.array((encoded_id, attention_mask))
+        #             for encoded_id, attention_mask in zip(
+        #                 x_encoded.ids, x_encoded.attention_mask
+        #             )
+        #         ]
+        #     )
+        #     return {"ids": x_encoded.ids, "attention_mask": x_encoded.attention_mask}
+        #     return np.array(x_encoded.ids), np.array(x_encoded.attention_mask)
+        return np.array(x_encoded.ids)
+
+    @staticmethod
+    def create_bert_inputs(sentences: list, params: dict) -> np.ndarray:
+        return np.array([Bert.create_bert_input_target(x, params) for x in sentences])
+
+    @staticmethod
+    def create_bert_model(params: dict, target_names: list):
+        ## BERT encoder
+        encoder = TFBertModel.from_pretrained("bert-base-uncased")
+
+        inputs = tf.keras.layers.Input(
+            shape=(params["max_length"],),
+            dtype=tf.int32,
+        )
+        embedding = encoder(inputs)[0]
+
+        #     layerDense = tf.keras.layers.Dense(
+        #         len(target_names), name="start_logit", use_bias=False
+        #     )(embedding)
+        #     end_layer = tf.keras.layers.Activation(tf.keras.activations.softmax)(layerDense)
+
+        layerFlat = tf.keras.layers.Flatten()(embedding)
+        #     layerGAvg = tf.keras.layers.GlobalAveragePooling1D()(embedding)
+        #     layerDense = tf.keras.layers.Dense(16 * len(target_names), activation="relu")(
+        #         layerGAvg
+        #     )
+        #     layerEnd = tf.keras.layers.Dense(
+        #         len(target_names)  # , name="start_logit", use_bias=False
+        #     )(layerDense)
+        #     layerActivation = tf.keras.layers.Activation(tf.keras.activations.softmax)(
+        #         layerGAvg
+        #     )
+        layerReduc = tf.keras.layers.Dense(2**10, activation="relu")(layerFlat)
+        layerEnd = tf.keras.layers.Dense(len(target_names), activation="sigmoid")(
+            layerReduc
+        )
+        model = tf.keras.Model(
+            inputs=[inputs],
+            outputs=[layerEnd],
+        )
+        #     loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
+        #     optimizer = tf.keras.optimizers.Adam(learning_rate=5e-5)
+        #     model.compile(optimizer=optimizer, loss=[loss, loss])
+        model.compile(
+            optimizer="adam",
+            loss=tf.keras.losses.BinaryCrossentropy(),
+            metrics=[
+                "accuracy"
+            ],  # @TODO https://keras.io/api/metrics/classification_metrics/
+        )
+        return model
+
+    # autre façon: comme dans le notebook exemple des tweets:
+    def BertTransformer(sentences: list, params):
+        tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        model = AutoModel.from_pretrained("bert-base-uncased")  # ou TFAutoModel
+        ## (input_ids,attention_mask,token_type_ids)
+        encoded_input = tokenizer(
+            sentences,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+            max_length=params["max_length"],
+        )
+        b_size = params["batch_size"]
+        output = [
+            ## (last_hidden_state,pooler_output)
+            model(
+                encoded_input["input_ids"][step : step + b_size],
+                attention_mask=encoded_input["attention_mask"][step : step + b_size],
+            )
+            .last_hidden_state.detach()
+            .numpy()
+            for step in range(0, len(sentences), b_size)
+        ]
+        print(model.summary())
+        return np.concatenate(output)
 
 
 class KerasEmbedTransformer(BaseEstimator, TransformerMixin):
