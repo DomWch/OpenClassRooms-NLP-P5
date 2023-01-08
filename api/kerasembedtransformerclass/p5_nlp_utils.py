@@ -177,12 +177,12 @@ class Word2Vec:
 class LDA:
     def __init__(self, tokens, num_topics):
         start = time.time()
-        print("Creation dictionnaire et corpus", end=' ')
+        print("Creation dictionnaire et corpus", end=" ")
         self.dictionary = gensim.corpora.dictionary.Dictionary(tokens)
         self.corpus = [self.dictionary.doc2bow(text) for text in tokens]
         self.num_topics = num_topics
         print("terminé en {}".format(Commun.time_e(start)))
-        print("Entrainement du model", end=' ')
+        print("Entrainement du model", end=" ")
         self.model = gensim.models.ldamodel.LdaModel(
             self.corpus,
             num_topics=num_topics,
@@ -197,30 +197,30 @@ class LDA:
         nb_row = int(self.num_topics / nb_col) + 1
         fig = plt.figure(figsize=(40, 10 * nb_row))
         axs = {}
-#         bar = progressbar.ProgressBar(max_value=self.num_topics,
-#             widgets=[
-#                 progressbar.Bar("=", "[", "]"),
-#                 " ",
-#                 progressbar.Percentage(),
-#                 Commun.time_e(start),
-#             ],
-#         )
-#         bar.start()
+        #         bar = progressbar.ProgressBar(max_value=self.num_topics,
+        #             widgets=[
+        #                 progressbar.Bar("=", "[", "]"),
+        #                 " ",
+        #                 progressbar.Percentage(),
+        #                 Commun.time_e(start),
+        #             ],
+        #         )
+        #         bar.start()
         for num_topic in range(self.num_topics):
-#             bar.update(num_topic)
-#             print("Creation WordCloud")
+            #             bar.update(num_topic)
+            #             print("Creation WordCloud")
             axs[num_topic] = fig.add_subplot(nb_row, nb_col, num_topic + 1)
             axs[num_topic].imshow(
                 WordCloud().fit_words(dict(self.model.show_topic(num_topic, nb_words)))
             )
             axs[num_topic].axis("off")
             axs[num_topic].set_title(f"Topic #{num_topic}")
-#         bar.finish()
+        #         bar.finish()
         plt.show()
 
     def prepare_display(self, sort_topics=False):
-        #https://pyldavis.readthedocs.io/en/latest/modules/API.html#pyLDAvis.prepare
-        self.display_data=pyLDA.prepare(
+        # https://pyldavis.readthedocs.io/en/latest/modules/API.html#pyLDAvis.prepare
+        self.display_data = pyLDA.prepare(
             self.model, self.corpus, self.dictionary, sort_topics=sort_topics
         )
         return self

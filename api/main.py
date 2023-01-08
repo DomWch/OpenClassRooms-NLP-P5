@@ -18,9 +18,9 @@ import tensorflow as tf
 # from api.kerasembedtransformerclass.kerasembedtransformerclass import (
 #     KerasEmbedTransformer,
 # )
-from .kerasembedtransformerclass import kerasembedtransformerclass
+# from .kerasembedtransformerclass import p5_nlp_utils
+import tensorflow_hub as hub
 
-# from api.ml_class.keras_class import KerasEmbedTransformer as KerasEmbedTransformerClass
 
 app = FastAPI()
 
@@ -87,7 +87,7 @@ async def history(version: str = "**", model: str = "*"):
 
 @app.get("/predict/{version}/{model}")
 async def predict(version: str, model: str):
-    test_sentence = [
+    test_sentences = [
         "git head main merge rebase",  # git
         "java object class main",  # java
         "python pandas numpy",  # python
@@ -106,7 +106,7 @@ async def predict(version: str, model: str):
     # TODO read type sklearn/keras from description ?
     if model in ["TfidfOvRSVC", "LogisticRegression"]:
         pipeline = joblib.load(path / f"{model}_model.joblib")
-    elif model in ["kerasPipeline", "BERT"]:
+    elif model in ["kerasPipeline", "BERT", "kerasUSE"]:
         pipeline = tf.keras.models.load_model(
             path / model,
             options=tf.saved_model.LoadOptions(
@@ -116,7 +116,11 @@ async def predict(version: str, model: str):
                 experimental_variable_policy=None,
             ),
         )
-    print(pipeline)
+    if model == "kerasUSE":
+        encoder = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+        test_sentences_encoded = encoder(test_sentences)
+    print("MODEL", pipeline)
+    # print(test_sentences,test_sentences_encoded)
 
     # if "keras_embed_transformer" in model.named_steps:
     #     load = kerasembedtransformerclass.KerasEmbedTransformer().load(
@@ -128,7 +132,9 @@ async def predict(version: str, model: str):
     #     # ] = kerasembedtransformerclass.KerasEmbedTransformer().load(
     #     #     path / "keras", description["Word2Vec"]
     #     # )
-    preds = pipeline.predict(test_sentence)
+    print("prediction:")
+    preds = pipeline.predict(test_sentences_encoded)
+    print(preds)
     return HTMLResponse(
         pd.DataFrame(
             {
@@ -136,7 +142,7 @@ async def predict(version: str, model: str):
                     tag_name: int(pred)
                     for tag_name, pred in zip(description["target_names"], pred_row)
                 }
-                for sentence, pred_row in zip(test_sentence, preds)
+                for sentence, pred_row in zip(test_sentences, preds)
             }
         ).T.to_html()
     )
