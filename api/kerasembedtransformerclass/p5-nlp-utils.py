@@ -1,5 +1,6 @@
 # %% [code]
 # %% [code]
+# %% [code]
 import os
 import joblib
 import progressbar
@@ -246,7 +247,7 @@ class Bert:
 
     @staticmethod
     def create_bert_input(sentence: str, params: dict):
-        x_encoded = Bert.get_tokenizer().encode(sentence)
+        x_encoded = Bert.get_tokenizer(model_max_length=params["max_length"]).encode(sentence)
         x_encoded.truncate(params["max_length"])
         x_encoded.pad(params["max_length"])
         #     print(len(x_encoded.ids))
