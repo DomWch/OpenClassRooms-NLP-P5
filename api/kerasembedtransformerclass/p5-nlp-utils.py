@@ -138,6 +138,46 @@ class Commun:
     @staticmethod
     def time_e(start: float):
         return f"{time.time()-start:_.0f}s"
+    
+    @staticmethod
+    def find_best_limit(
+        X_pred,
+        y_true,
+        target_names,
+        limits=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        average="micro",
+    )->tuple:
+            f1_scores = [
+                Commun.save_score(
+                    y_true=y_test,
+                    y_pred=convert_pred_to_bool(X_pred, limit=limit),
+                    target_names=target_names,
+                    name=None,
+                ).loc[f"{average} avg", "f1-score"]
+                for limit in limits
+            ]
+            #     for limit in limits:
+            #         pred_bood = convert_pred_to_bool(X_pred_test_use, limit=limit)
+            #         score_temp = Commun.save_score(
+            #             y_true=y_test,
+            #             y_pred=pred_bood,
+            #             target_names=target_names,
+            #             name=None,
+            #         ).loc[["micro avg", "macro avg"], "f1-score"]
+            #         roc_auc = metrics.roc_auc_score(
+            #             y_test,
+            #             pred_bood,
+            #             multi_class="ovr",
+            #             average="micro",
+            #         )
+            #         print(
+            #             f'{limit} f1-score: {score_temp["micro avg"]} micro {score_temp["macro avg"]} macro {roc_auc} ROC AUC score'
+            #         )
+            best = limits[np.argmax(f1_scores)]
+            print(f"Meilleur f1-score {max(f1_scores):.2%} pour limit {best}")
+            plt.plot(f1_score_avg)
+            plt.show
+            return best, f1_scores
 
 
 class Word2Vec:
@@ -243,7 +283,8 @@ class Bert:
             slow_tokenizer.save_pretrained(save_path)
         # from https://keras.io/examples/nlp/text_extraction_with_bert/
         # Load the fast tokenizer from saved file
-        return BertWordPieceTokenizer("bert_base_uncased/vocab.txt", lowercase=True)
+        # return BertWordPieceTokenizer("bert_base_uncased/vocab.txt", lowercase=True)
+        return BertWordPieceTokenizer().from_file("bert_base_uncased/vocab.txt", lowercase=True)
 
     @staticmethod
     def create_bert_input(sentence: str, params: dict):
