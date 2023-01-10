@@ -1,6 +1,7 @@
 # %% [code]
 # %% [code]
 # %% [code]
+# %% [code]
 import os
 import joblib
 import progressbar
@@ -140,17 +141,21 @@ class Commun:
         return f"{time.time()-start:_.0f}s"
     
     @staticmethod
+    def convert_pred_to_bool(preds, limit: float = 0.5):
+        return pd.DataFrame(preds).apply(lambda x: x > limit)
+
+    @staticmethod
     def find_best_limit(
         X_pred,
         y_true,
         target_names,
-        limits=[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        limits=np.linspace(0,1,101),
         average="micro",
     )->tuple:
             f1_scores = [
                 Commun.save_score(
-                    y_true=y_test,
-                    y_pred=convert_pred_to_bool(X_pred, limit=limit),
+                    y_true=y_true,
+                    y_pred=Commun.convert_pred_to_bool(X_pred, limit=limit),
                     target_names=target_names,
                     name=None,
                 ).loc[f"{average} avg", "f1-score"]
@@ -159,13 +164,13 @@ class Commun:
             #     for limit in limits:
             #         pred_bood = convert_pred_to_bool(X_pred_test_use, limit=limit)
             #         score_temp = Commun.save_score(
-            #             y_true=y_test,
+            #             y_true=y_true,
             #             y_pred=pred_bood,
             #             target_names=target_names,
             #             name=None,
             #         ).loc[["micro avg", "macro avg"], "f1-score"]
             #         roc_auc = metrics.roc_auc_score(
-            #             y_test,
+            #             y_true,
             #             pred_bood,
             #             multi_class="ovr",
             #             average="micro",
