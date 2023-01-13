@@ -290,7 +290,7 @@ class LDA:
         self.topics_names = [
             "_".join(
                 [
-                    f"{word}{freq:.2%}"
+                    f"{word}({freq:.2%})"
                     for word, freq in self.model.show_topic(num_topic, 100)
                     if word in target_names
                 ]
@@ -298,6 +298,26 @@ class LDA:
             for num_topic in range(self.num_topics)
         ]
         return self
+
+    def predict(self, X_tokens, limit=5):
+        corpus_pred = [self.dictionary.doc2bow(text) for text in X_tokens]
+        pred_lda = self.model.inference(corpus_pred, collect_sstats=False)[0]
+        return [
+            {name: prob for name, prob in zip(self.topics_names, pred) if prob > limit}
+            for pred in pred_lda
+        ]
+
+    @staticmethod
+    def convert_pred(preds: list, target_names: list):
+        return pd.DataFrame(
+            {
+                index: {
+                    target_tag: sum([target_tag in topic for topic in pred.keys()]) > 0
+                    for target_tag in target_names
+                }
+                for index, pred in enumerate(preds)
+            }
+        ).T
 
 
 class Bert:
