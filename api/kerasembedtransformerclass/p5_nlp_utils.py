@@ -1,4 +1,3 @@
-# %% [code]
 import os
 import joblib
 import progressbar
@@ -27,11 +26,11 @@ from sklearn import (
 )
 from transformers import (
     AutoTokenizer,
-    TFAutoModel,
+    # TFAutoModel,
     AutoModel,
     BertTokenizer,
     TFBertModel,
-    BertConfig,
+    # BertConfig,
 )  # BertModel
 from tokenizers import BertWordPieceTokenizer
 import tensorflow as tf
@@ -92,7 +91,7 @@ class Commun:
         #     maxcols : max cols per row (4 is nice because with figsize shape its squared)
         nb_col = min(maxcols, max(1, len(tag_list)))
         nb_row = int(len(tag_list) / nb_col) + 1
-        fig = plt.figure(figsize=(40, 10 * nb_row))
+        fig = plt.figure(figsize=(30, (30 / nb_col) * nb_row))
         ax1 = fig.add_subplot(nb_row, 1, 1)
         scatter = ax1.scatter(
             X_tsne[:, 0],
@@ -137,6 +136,52 @@ class Commun:
     def time_e(start: float):
         return f"{time.time()-start:_.0f}s"
 
+    @staticmethod
+    def convert_pred_to_bool(preds, limit: float = 0.5):
+        return pd.DataFrame(preds).apply(lambda x: x > limit)
+
+    @staticmethod
+    def find_best_limit(
+        X_pred,
+        y_true,
+        target_names,
+        limits=np.linspace(0, 1, 101),
+        average="micro",
+        full_print=False,
+    ) -> tuple:
+        f1_scores = [
+            Commun.save_score(
+                y_true=y_true,
+                y_pred=Commun.convert_pred_to_bool(X_pred, limit=limit),
+                target_names=target_names,
+                name=None,
+            ).loc[f"{average} avg", "f1-score"]
+            for limit in limits
+        ]
+        if full_print:
+            for limit in limits:
+                pred_bood = convert_pred_to_bool(X_pred_test_use, limit=limit)
+                score_temp = Commun.save_score(
+                    y_true=y_true,
+                    y_pred=pred_bood,
+                    target_names=target_names,
+                    name=None,
+                ).loc[["micro avg", "macro avg"], "f1-score"]
+                roc_auc = metrics.roc_auc_score(
+                    y_true,
+                    pred_bood,
+                    multi_class="ovr",
+                    average="micro",
+                )
+                print(
+                    f'{limit} f1-score: {score_temp["micro avg"]} micro {score_temp["macro avg"]} macro {roc_auc} ROC AUC score'
+                )
+        best = limits[np.argmax(f1_scores)]
+        print(f"Meilleur f1-score {max(f1_scores):.2%} pour limit {best}")
+        plt.plot(f1_scores)
+        plt.show
+        return best, f1_scores
+
 
 class Word2Vec:
     def build_Word2Vec(X_train, params):
@@ -176,27 +221,42 @@ class Word2Vec:
 
 
 class LDA:
-    def __init__(self, tokens, num_topics):
+    def __init__(
+        self,
+        tokens,
+        num_topics,
+        no_below=100,
+        no_above=0.5,
+        max_tokens=100_000,
+        iterations=50,
+        per_word_topics=True,
+    ):
         start = time.time()
         print("Creation dictionnaire et corpus", end=" ")
         self.dictionary = gensim.corpora.dictionary.Dictionary(tokens)
+        self.dictionary.filter_extremes(
+            no_below=no_below, no_above=no_above, keep_n=max_tokens
+        )
         self.corpus = [self.dictionary.doc2bow(text) for text in tokens]
         self.num_topics = num_topics
         print("terminé en {}".format(Commun.time_e(start)))
         print("Entrainement du model", end=" ")
+        # https://radimrehurek.com/gensim/models/ldamodel.html
         self.model = gensim.models.ldamodel.LdaModel(
             self.corpus,
             num_topics=num_topics,
             random_state=42,
             id2word=self.dictionary,
+            per_word_topics=per_word_topics,
+            iterations=iterations,
         )
         print("terminé en {}".format(Commun.time_e(start)))
 
-    def word_cloud_by_topics(self, nb_words=200, maxcols=4) -> None:
+    def word_cloud_by_topics(self, nb_words=200, maxcols=3) -> None:
         start = time.time()
         nb_col = min(maxcols, max(1, self.num_topics))
         nb_row = int(self.num_topics / nb_col) + 1
-        fig = plt.figure(figsize=(40, 10 * nb_row))
+        fig = plt.figure(figsize=(30, (30 / nb_col) * nb_row))
         axs = {}
         #         bar = progressbar.ProgressBar(max_value=self.num_topics,
         #             widgets=[
@@ -215,7 +275,7 @@ class LDA:
                 WordCloud().fit_words(dict(self.model.show_topic(num_topic, nb_words)))
             )
             axs[num_topic].axis("off")
-            axs[num_topic].set_title(f"Topic #{num_topic}")
+            axs[num_topic].set_title(f"#{num_topic} {self.topics_names[num_topic]}")
         #         bar.finish()
         plt.show()
 
@@ -224,6 +284,19 @@ class LDA:
         self.display_data = pyLDA.prepare(
             self.model, self.corpus, self.dictionary, sort_topics=sort_topics
         )
+        return self
+
+    def name_topics(self, target_names):
+        self.topics_names = [
+            "_".join(
+                [
+                    f"{word}{freq:.2%}"
+                    for word, freq in self.model.show_topic(num_topic, 100)
+                    if word in target_names
+                ]
+            )
+            for num_topic in range(self.num_topics)
+        ]
         return self
 
 
@@ -241,11 +314,16 @@ class Bert:
             slow_tokenizer.save_pretrained(save_path)
         # from https://keras.io/examples/nlp/text_extraction_with_bert/
         # Load the fast tokenizer from saved file
-        return BertWordPieceTokenizer("bert_base_uncased/vocab.txt", lowercase=True)
+        # return BertWordPieceTokenizer("bert_base_uncased/vocab.txt", lowercase=True)
+        return BertWordPieceTokenizer().from_file(
+            "bert_base_uncased/vocab.txt", lowercase=True
+        )
 
     @staticmethod
     def create_bert_input(sentence: str, params: dict):
-        x_encoded = Bert.get_tokenizer().encode(sentence)
+        x_encoded = Bert.get_tokenizer(model_max_length=params["max_length"]).encode(
+            sentence
+        )
         x_encoded.truncate(params["max_length"])
         x_encoded.pad(params["max_length"])
         #     print(len(x_encoded.ids))
@@ -265,7 +343,7 @@ class Bert:
 
     @staticmethod
     def create_bert_inputs(sentences: list, params: dict) -> np.ndarray:
-        return np.array([Bert.create_bert_input_target(x, params) for x in sentences])
+        return np.array([Bert.create_bert_input(x, params) for x in sentences])
 
     @staticmethod
     def create_bert_model(params: dict, target_names: list):
