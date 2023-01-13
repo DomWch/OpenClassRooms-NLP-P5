@@ -9,15 +9,12 @@ from fastapi.responses import HTMLResponse, JSONResponse
 import joblib
 import pandas as pd
 import sklearn
+import gradio as gr
 
 # from tensorflow.keras import preprocessing as keras_preprocessing
 from tensorflow import keras
 import tensorflow as tf
 
-# from api.ml_class import kerasembedtransformerclass
-# from api.kerasembedtransformerclass.kerasembedtransformerclass import (
-#     KerasEmbedTransformer,
-# )
 # from .kerasembedtransformerclass import p5_nlp_utils
 import tensorflow_hub as hub
 
@@ -160,3 +157,7 @@ async def download_history(name: str):
 
     output, error = process.communicate()
     return {"error": error, "output": output}
+
+
+io = gr.Interface(lambda x: "Hello, " + x + "!", "textbox", "textbox")
+app = gr.mount_gradio_app(app, io, path="/gradio")
