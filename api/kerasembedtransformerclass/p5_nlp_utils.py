@@ -34,6 +34,7 @@ from transformers import (
 )  # BertModel
 from tokenizers import BertWordPieceTokenizer
 import tensorflow as tf
+import tensorflow_hub as hub
 
 
 class Commun:
@@ -141,6 +142,20 @@ class Commun:
         return pd.DataFrame(preds).apply(lambda x: x > limit)
 
     @staticmethod
+    def convert_pred_to_bool_by_tags(preds, limit_by_tags: dict):
+        return pd.DataFrame(
+            [
+                {
+                    tag_name: (tag_pred > tag_limit)
+                    for tag_pred, tag_name, tag_limit in zip(
+                        pred, limit_by_tags.keys(), limit_by_tags.values()
+                    )
+                }
+                for pred in preds
+            ]
+        )
+
+    @staticmethod
     def find_best_limit(
         X_pred,
         y_true,
@@ -160,7 +175,7 @@ class Commun:
         ]
         if full_print:
             for limit in limits:
-                pred_bood = convert_pred_to_bool(X_pred_test_use, limit=limit)
+                pred_bood = Commun.convert_pred_to_bool(X_pred, limit=limit)
                 score_temp = Commun.save_score(
                     y_true=y_true,
                     y_pred=pred_bood,
@@ -178,9 +193,43 @@ class Commun:
                 )
         best = limits[np.argmax(f1_scores)]
         print(f"Meilleur f1-score {max(f1_scores):.2%} pour limit {best}")
+        plt.figure(figsize=(30, 15))
         plt.plot(f1_scores)
-        plt.show
+        plt.show()
         return best, f1_scores
+
+    @staticmethod
+    def find_best_limit_by_tags(
+        X_pred,
+        y_true,
+        target_names,
+        limits=np.linspace(0, 1, 101),
+    ) -> dict:
+        f1_scores = pd.DataFrame(
+            [
+                Commun.save_score(
+                    y_true=y_true,
+                    y_pred=Commun.convert_pred_to_bool(X_pred, limit=limit),
+                    target_names=target_names,
+                    name=None,
+                ).loc[target_names, "f1-score"]
+                for limit in limits
+            ],
+            index=limits,
+        )
+
+        best = {}
+        plt.figure(figsize=(30, 15))
+        for target_tag in target_names:
+            f1_score = f1_scores[target_tag]
+            print(
+                f"{target_tag} : meilleur f1-score {f1_score.max():.2%} pour limit {f1_score.idxmax()}"
+            )
+            best[target_tag] = (f1_score.idxmax(), f1_score.max())
+            plt.plot(f1_score, label=target_tag)
+        plt.legend()
+        plt.show()
+        return best
 
 
 class Word2Vec:
@@ -340,30 +389,62 @@ class Bert:
         )
 
     @staticmethod
-    def create_bert_input(sentence: str, params: dict):
-        x_encoded = Bert.get_tokenizer(model_max_length=params["max_length"]).encode(
-            sentence
+    def create_bert_input(sentence: str, tokenizer, max_len: int):
+        x_encoded = tokenizer.encode(sentence)
+        x_encoded.truncate(max_len)
+        x_encoded.pad(max_len)
+        return (
+            np.array(x_encoded.ids),
+            np.array(x_encoded.attention_mask),
+            np.array(x_encoded.type_ids),
         )
-        x_encoded.truncate(params["max_length"])
-        x_encoded.pad(params["max_length"])
-        #     print(len(x_encoded.ids))
-        #     print(len(x_encoded.attention_mask))
-        #     params["max_length"]
-        #     return np.array(
-        #         [
-        #             np.array((encoded_id, attention_mask))
-        #             for encoded_id, attention_mask in zip(
-        #                 x_encoded.ids, x_encoded.attention_mask
-        #             )
-        #         ]
-        #     )
-        #     return {"ids": x_encoded.ids, "attention_mask": x_encoded.attention_mask}
-        #     return np.array(x_encoded.ids), np.array(x_encoded.attention_mask)
-        return np.array(x_encoded.ids)
 
     @staticmethod
-    def create_bert_inputs(sentences: list, params: dict) -> np.ndarray:
-        return np.array([Bert.create_bert_input(x, params) for x in sentences])
+    def create_bert_inputs(sentences: list, max_len: int) -> np.ndarray:
+        tokenizer = Bert.get_tokenizer(model_max_length=max_len)
+        x_ids = []
+        x_masks = []
+        x_types = []
+        for sentence in sentences:
+            x_encoded = Bert.create_bert_input(sentence, tokenizer, max_len)
+            x_ids.append(x_encoded[0])
+            x_masks.append(x_encoded[1])
+            x_types.append(x_encoded[2])
+        return np.array(x_ids), np.array(x_masks), np.array(x_types)
+
+    def build_bert_model(
+        max_len: int,
+        target_names: list,
+        module_url="https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/2",
+    ):
+        bert_layer = hub.KerasLayer(module_url)
+        input_word_ids = tf.keras.Input(
+            shape=(max_len,), dtype=tf.int32, name="input_word_ids"
+        )
+        input_mask = tf.keras.Input(shape=(max_len,), dtype=tf.int32, name="input_mask")
+        segment_ids = tf.keras.Input(
+            shape=(max_len,), dtype=tf.int32, name="input_type_ids"
+        )
+
+        pooled_output, sequence_output = bert_layer(
+            [input_word_ids, input_mask, segment_ids]
+        )
+        clf_output = sequence_output[:, 0, :]
+        net = tf.keras.layers.Dense(64, activation="relu")(clf_output)
+        net = tf.keras.layers.Dropout(0.2)(net)
+        net = tf.keras.layers.Dense(32, activation="relu")(net)
+        net = tf.keras.layers.Dropout(0.2)(net)
+        out = tf.keras.layers.Dense(len(target_names), activation="softmax")(net)
+
+        model = tf.keras.models.Model(
+            inputs=[input_word_ids, input_mask, segment_ids], outputs=out
+        )
+        model.compile(
+            tf.keras.optimizers.Adam(learning_rate=1e-5),
+            loss=tf.keras.losses.BinaryCrossentropy(),  # "categorical_crossentropy",
+            metrics=["accuracy"],
+        )
+        return model
 
     @staticmethod
     def create_bert_model(params: dict, target_names: list):
