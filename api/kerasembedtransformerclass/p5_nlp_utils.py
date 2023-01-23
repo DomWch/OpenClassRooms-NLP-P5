@@ -233,6 +233,7 @@ class Commun:
 
 
 class Word2Vec:
+    @staticmethod
     def build_Word2Vec(X_train, params):
         print("Build & train Word2Vec model ...")
         X_train_token = X_train.str.split()
@@ -430,11 +431,11 @@ class Bert:
             [input_word_ids, input_mask, segment_ids]
         )
         clf_output = sequence_output[:, 0, :]
-        net = tf.keras.layers.Dense(64, activation="relu")(clf_output)
+        net = tf.keras.layers.Dense(512, activation="relu")(clf_output)
         net = tf.keras.layers.Dropout(0.2)(net)
-        net = tf.keras.layers.Dense(32, activation="relu")(net)
+        net = tf.keras.layers.Dense(128, activation="relu")(net)
         net = tf.keras.layers.Dropout(0.2)(net)
-        out = tf.keras.layers.Dense(len(target_names), activation="softmax")(net)
+        out = tf.keras.layers.Dense(len(target_names), activation="sigmoid")(net)
 
         model = tf.keras.models.Model(
             inputs=[input_word_ids, input_mask, segment_ids], outputs=out
