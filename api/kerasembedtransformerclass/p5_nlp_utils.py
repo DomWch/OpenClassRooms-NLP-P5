@@ -36,8 +36,123 @@ from tokenizers import BertWordPieceTokenizer
 import tensorflow as tf
 import tensorflow_hub as hub
 
+##nettoyage
+import spacy
+from bs4 import BeautifulSoup
+
+
+class TextCleaning:
+    @staticmethod
+    def cleaning_v1(df: pd.DataFrame()):
+        """before 25/01"""
+        nlp = spacy.load("en_core_web_sm")
+        df = df[["Id", "Title", "Body", 0, 1, 2, 3, 4, 5]].copy()
+        df["Title_clean"] = ""
+        df["Code"] = ""
+        df["Body_clean"] = ""
+        start = time.time()
+
+        bar = progressbar.ProgressBar(
+            max_value=len(df),
+            widgets=[
+                progressbar.Bar("=", "[", "]"),
+                " ",
+                progressbar.Percentage(),
+                " ",
+                Commun.time_e(start),
+            ],
+        )
+        bar.start()
+        for index, row in df.iterrows():
+            bar.update(index)
+            #     print(index, row["Title"])
+            title = nlp(row["Title"])
+            row["Title_clean"] = " ".join(
+                [
+                    token.lemma_
+                    for token in title
+                    if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"]
+                    and not token.is_stop
+                ]
+            ).lower()
+            # print(row["Title_clean"])
+            soup = BeautifulSoup(row["Body"], features="lxml")
+            row["Code"] = " ".join([code.get_text() for code in soup.find_all("code")])
+            row["Body_clean"] = " ".join(
+                [
+                    token.lemma_
+                    for token in nlp(
+                        " ".join([p.get_text() for p in soup.find_all("p")])
+                    )
+                    if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"]
+                    and not token.is_stop
+                ]
+            ).lower()
+            df.iloc[index] = row
+        bar.finish()
+        return df
+
+    @staticmethod
+    def cleaning_v2(df: pd.DataFrame()):
+        """return separate cleaning for BERT"""
+        nlp = spacy.load("en_core_web_sm")
+        df = df[["Id", "Title", "Body", 0, 1, 2, 3, 4, 5]].copy()
+        df["Token_lemma"] = ""
+        df["Token_BERT"] = ""
+        df["code"] = ""
+        start = time.time()
+
+        bar = progressbar.ProgressBar(
+            max_value=len(df),
+            widgets=[
+                progressbar.Bar("=", "[", "]"),
+                " ",
+                progressbar.Percentage(),
+                " ",
+                Commun.time_e(start),
+            ],
+        )
+        bar.start()
+        for index, row in df.iterrows():
+            bar.update(index)
+            #     print(index, row["Title"])
+            title = nlp(row["Title"])
+            title_clean = " ".join(
+                [
+                    token.lemma_
+                    for token in title
+                    if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"]
+                    and not token.is_stop
+                ]
+            ).lower()
+            # print(row["Title_clean"])
+            soup = BeautifulSoup(row["Body"], features="lxml")
+            row["code"] = " ".join([code.get_text() for code in soup.find_all("code")])
+            body_clean = " ".join(
+                [
+                    token.lemma_
+                    for token in nlp(
+                        " ".join([p.get_text() for p in soup.find_all("p")])
+                    )
+                    if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"]
+                    and not token.is_stop
+                ]
+            ).lower()
+            row["Token_lemma"] = f"{title_clean} {body_clean}"  # test avec code?
+            row[
+                "Token_BERT"
+            ] = f'{row["Title"].strip()} {" ".join([p.get_text().strip() for p in soup.find_all("p")])}'.lower()
+            df.iloc[index] = row
+
+        bar.finish()
+        return df
+
 
 class Commun:
+    @staticmethod
+    def time_e(start: float):
+        return f"{time.time()-start:_.0f}s"
+
     @staticmethod
     def calcul_tsne(X, perplexity=50, n_iter=500, random_state=42) -> np.ndarray:
         tsne = manifold.TSNE(
@@ -132,10 +247,6 @@ class Commun:
             axs[i].set_title(f"tag:{tag}")
         plt.show()
         return None
-
-    @staticmethod
-    def time_e(start: float):
-        return f"{time.time()-start:_.0f}s"
 
     @staticmethod
     def convert_pred_to_bool(preds, limit: float = 0.5):

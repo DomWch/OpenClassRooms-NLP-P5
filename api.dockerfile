@@ -11,5 +11,6 @@ COPY ./api /code/api
 RUN pip install pandas scikit-learn==1.0.2 tensorflow gensim joblib kaggle "tensorflow>=2.0.0" 
 RUN pip install --upgrade tensorflow-hub
 RUN pip install gradio
+RUN pip install spicy beautifulsoup4
 # RUN uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
 
