@@ -6,6 +6,10 @@ kaggle/data/*/naive_is_in_score.csv
 kaggle/data/*/*.model/*
 kaggle/data/*/*.tokenizer
 kaggle/data/*/kerasPipeline/
+kaggle/data/*/BERT/
+kaggle/data/*/bert_base_uncased/
+kaggle/data/*/__results___files/
+kaggle/data/*/kerasUSE/
 ## mypy cache
 *.pyc
 
