@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import gensim
-import pyLDAvis.gensim as pyLDA
+import pyLDAvis.gensim_models as pyLDA
 from sklearn.base import BaseEstimator, TransformerMixin
 from tensorflow import keras
 from sklearn import (
@@ -91,6 +91,19 @@ class TextCleaning:
             df.iloc[index] = row
         bar.finish()
         return df
+
+    @staticmethod
+    def cleaning_text(text: str, for_bert: bool = False):
+        if for_bert:
+            return text.strip().lower()
+        nlp = spacy.load("en_core_web_sm")
+        return " ".join(
+            [
+                token.lemma_
+                for token in nlp(text)
+                if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"] and not token.is_stop
+            ]
+        ).lower()
 
     @staticmethod
     def cleaning_v2(df: pd.DataFrame()):

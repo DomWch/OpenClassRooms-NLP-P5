@@ -11,13 +11,13 @@ import pandas as pd
 import sklearn
 import gradio as gr
 
-# from tensorflow.keras import preprocessing as keras_preprocessing
 from tensorflow import keras
 import tensorflow as tf
 
 # from .kerasembedtransformerclass import p5_nlp_utils
 import tensorflow_hub as hub
 
+from api.transformerclass.pred_pipeline import apply_model
 
 app = FastAPI()
 
@@ -159,5 +159,34 @@ async def download_history(name: str):
     return {"error": error, "output": output}
 
 
-io = gr.Interface(lambda x: "Hello, " + x + "!", "textbox", "textbox")
-app = gr.mount_gradio_app(app, io, path="/gradio")
+_MODEL = ["USE", "BERT"]
+_DEFAULT = "USE"
+
+examples = [
+    ["git head main merge rebase", "USE"],
+    ["java object class main", "USE"],
+    ["python pandas numpy", "USE"],
+    ["request database join merge", "USE"],
+]
+by_text = gr.Interface(
+    fn=apply_model,
+    inputs=["textbox", gr.Dropdown(_MODEL, value=_DEFAULT, label="Model")],
+    outputs=[gr.Dataframe(label="Tag prédit")],
+    examples=examples,
+)
+by_idStackOverFlow = gr.Interface(
+    fn=apply_model,
+    inputs=[
+        gr.Number(precision=0, label="StackOverFlow ID"),
+        gr.Dropdown(_MODEL, value=_DEFAULT, label="Model"),
+    ],
+    outputs=[gr.Dataframe(label="Tag prédit")],
+    examples=[[74611350, "USE"]],
+)
+app = gr.mount_gradio_app(
+    app,
+    gr.TabbedInterface(
+        [by_text, by_idStackOverFlow], ["From text", "From StackOverFlow"]
+    ),
+    path="/gradio",
+)
