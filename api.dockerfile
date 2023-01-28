@@ -21,5 +21,6 @@ RUN pip install spacy
 RUN python -m spacy download en_core_web_sm
 RUN export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 RUN pip install pyLDAvis
+RUN pip install stackapi
 # RUN uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
 

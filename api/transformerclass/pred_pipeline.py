@@ -10,6 +10,8 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from bs4 import BeautifulSoup
 
+from stackapi import StackAPI
+
 from . import p5_nlp_utils
 
 
@@ -25,20 +27,15 @@ def apply_model(
     # version: str = "**",
 ):
     if isinstance(text, int):
-        r = requests.get("https://stackoverflow.com/questions/")
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, features="html.parser")
-        title = soup.find(id="question-header")
-        body = " ".join(
-            [
-                elem.string
-                for elem in soup.find(id="mainbar").find_all(
-                    string=is_the_only_string_within_a_tag
-                )
-                if elem
-            ]
+        SITE = StackAPI("stackoverflow")
+        resp = SITE.fetch("questions/{ids}", ids=[text], filter="withbody")
+        print(resp)
+        text_clean = p5_nlp_utils.TextCleaning.cleaning_text(
+            title=resp["items"][0]["title"], body=resp["items"][0]["body"]
         )
-        text = f'{title.string if title else ""} {body}'.strip()
+    else:
+        text_clean = p5_nlp_utils.TextCleaning.cleaning_text(title=text)
+    print(text_clean)
     version_model = version_model.split("/")  # [version, model]
     # print(version_model)
     path = Path(f"/data/{version_model[0]}").resolve()
@@ -59,7 +56,7 @@ def apply_model(
             # path = path.parent
             with open(path / "best_limits_use.json", "r") as f:
                 best_limits = json.loads(f.read())
-            text_lemma = p5_nlp_utils.TextCleaning.cleaning_text(text)
+            text_lemma = text_clean[0]
             encoder = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
             test_sentences_encoded = encoder([text_lemma])
             pipeline = tf.keras.models.load_model(
@@ -87,9 +84,7 @@ def apply_model(
             ).T.sort_values(by="pred_proba", ascending=False)
         case "TfidfOvRSVC" | "LogisticRegression" | "TfidfOvRestSvc":
             pipeline = joblib.load(path / f"{version_model[1]}_model.joblib")
-            preds = pipeline.predict(
-                p5_nlp_utils.TextCleaning.cleaning_text(text, join=False)
-            )
+            preds = pipeline.predict(text_clean[0].split())
             return pd.DataFrame(
                 {
                     tag_name: {"tag": tag_name, "pred": pred}
