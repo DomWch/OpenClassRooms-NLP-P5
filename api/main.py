@@ -5,13 +5,12 @@ import json
 import subprocess
 import os
 
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
-import pandas as pd
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, StreamingResponse
 import gradio as gr
 from stackapi import StackAPI
 
-from api.transformerclass.pred_pipeline import (
+from .transformerclass.pred_pipeline import (
     apply_model,
     get_history,
     apply_model_by_id,
@@ -19,6 +18,20 @@ from api.transformerclass.pred_pipeline import (
 
 app = FastAPI()
 
+_MODEL = [
+    f"{model.parent.stem}/{model.stem.split('_')[0]}"
+    for model in Path("/data").glob(f"**/*_score.csv")
+    if model.stem.split("_")[0]
+    in [
+        "kerasUSE",
+        # "BERT",
+        # "kerasWord2Vec",
+        "LogisticRegression",
+        "TfidfOvRSVC",
+        "TfidfOvRestSvc",
+        # "Word2Vec",
+    ]
+]
 
 CSS = "table{border-collapse: collapse;}"
 TEMPLATE_ROOT = (
@@ -34,6 +47,8 @@ def read(path):
 
 @app.get("/merge_notebook")
 async def merge_notebook():
+    if not Path("/notebooks").exists():
+        return 0
     tfidf = read("/notebooks/p5-nlp-tfidf-onevsrest.ipynb")
     word2vec = read("/notebooks/p5-nlp-word2veckeras.ipynb")
     bert = read("/notebooks/p5-nlp-bert.ipynb")
@@ -97,6 +112,49 @@ async def history(version: str = "**", model: str = "*"):
     )
 
 
+# @app.get("/secrets/test")
+# async def test():
+#     return json.loads(os.environ.get("KAGGLE_JSON"))["username"]
+
+
+@app.post("/webhook/github")
+async def webhook(request: Request):
+    body = await request.json()
+    print(body)
+    ## TODO on commit download kaggle output
+    # process = subprocess.Popen(
+    #     f"kaggle kernels output waechter/p5-nlp-tfidf-onevsrest -p /data/{name}".split(),
+    #     stdout=subprocess.PIPE,
+    # )
+    # output, error = process.communicate()
+    # return {"error": error, "output": output}
+    sshkey = json.loads(os.environ.get("GITHUB_KEY", False))
+    commits = body.get("commits", [])
+    if sshkey:
+        modified = [
+            modif for modif in commits.get("modified", []) for commit in commits
+        ]
+        print(modified)
+        modified = [
+            modif
+            for modif in modified
+            if modif
+            in [
+                "api/main.py"
+                | "api/transformerclass/pred_pipeline.py"
+                | "api/transformerclass/p5_nlp_utils.py"
+            ]
+        ]
+        if len(modified) > 0:
+            process = subprocess.Popen(
+                ["bash", "/code/api/majapi.sh"],
+                stdout=subprocess.PIPE,
+            )
+            output, error = process.communicate()
+            print(output, error)
+    return 200
+
+
 @app.get("/download_output/{name}")
 async def download_history(name: str):
     current_time = datetime.now()
@@ -120,7 +178,7 @@ async def get_question_by_tag(tag: str, version_model="modelsOvR_1/LogisticRegre
         sort="creation",
         tagged=tag,
         site="stackoverflow",
-        filter="!Lby_WhrR-.*oagWOboYqX0",
+        filter="withbody",
     )
     # print(resp)
 
@@ -128,16 +186,18 @@ async def get_question_by_tag(tag: str, version_model="modelsOvR_1/LogisticRegre
         good_res = []
         bad_counter = 0
         for question in resp["items"]:
-            question_text, prediction, tags = apply_model_by_id(
-                question["question_id"], version_model=version_model
+            prediction = apply_model(
+                title=question["title"],
+                version_model=version_model,
+                body=question["body"],
             )
             if prediction[prediction["tag"] == tag]["pred"][0]:
                 good_res.append(question["question_id"])
-                yield f'{bad_counter} {len(good_res)} {question["question_id"]}'
+                yield f'{len(good_res)}/{bad_counter} {question["question_id"]} '
                 # TODO compare prediction & tags
             else:
                 bad_counter += 1
-        yield f'{(len(good_res)/bad_counter):.2%} {" ".join(good_res)}'
+        yield f'{(len(good_res)/bad_counter):.2%} {" ".join(str(good_res))}'
 
     # return [
     #     {
@@ -164,34 +224,111 @@ _MODEL = [
         "Word2Vec",
     ]
 ]
-
-exemples_ids = [
-    [questions_id, "modelsOvR_1/LogisticRegression", "python"]
-    for questions_id in [
-        75275227,
-        75276194,
-        75275997,
-        75275646,
-        75275639,
-        75275543,
-        75275500,
-        75275434,
-        75275407,
-        75275321,
-        75275256,
-        75275230,
-        75275158,
-        75274973,
-        75274791,
-        75274704,
-        75274608,
-        75274505,
-    ]
-] + [
-    [75275263, _MODEL[randrange(len(_MODEL) - 1)], "java"],  # java #good
-    [75275245, _MODEL[randrange(len(_MODEL) - 1)], "javascript"],  # javascript
-    [74611350, _MODEL[randrange(len(_MODEL) - 1)], "docker"],  # docker
+ids_python = [
+    75275227,
+    75276194,
+    75275997,
+    75275646,
+    75275639,
+    75275543,
+    75275500,
+    75275434,
+    75275407,
+    75275321,
+    75275256,
+    75275230,
+    75275158,
+    75274973,
+    75274791,
+    75274704,
+    75274608,
+    75274505,
 ]
+ids_java = [
+    75277724,
+    75277601,
+    75277450,
+    75277341,
+    75276995,
+    75276919,
+    75276766,
+    75276726,
+    75276696,
+    75276324,
+    75276050,
+    75275934,
+    75275798,
+    75275673,
+    75275263,
+    75274887,
+    75274872,
+    75274602,
+    75274384,
+    75274317,
+    75274144,
+    75273207,
+    75272580,
+    75272317,
+    75272274,
+    75272260,
+    75272029,
+    75271958,
+    75271675,
+    75271629,
+    75271327,
+    75270749,
+    75270691,
+    75270554,
+    75269963,
+    75269602,
+    75269434,
+    75269417,
+    75269315,
+    75269041,
+    75268687,
+    75268454,
+    75268295,
+    75267856,
+    75267694,
+    75267521,
+    75267042,
+    75266475,
+    75266256,
+    75265283,
+    75264954,
+    75264716,
+    75264354,
+    75263983,
+    75262593,
+    75262375,
+    75262368,
+    75262218,
+    75261925,
+    75261898,
+    75261725,
+    75261251,
+    75260868,
+    75260539,
+    75259708,
+    75259194,
+    75258989,
+    75258594,
+    75258443,
+]
+exemples_ids = (
+    [
+        [questions_id, "modelsOvR_1/LogisticRegression", "python"]
+        for questions_id in ids_python
+    ]
+    + [
+        [questions_id, "modelsOvR_1/LogisticRegression", "java"]
+        for questions_id in ids_java
+    ]
+    + [
+        [75275245, _MODEL[randrange(len(_MODEL) - 1)], "javascript"],  # javascript
+        [74611350, _MODEL[randrange(len(_MODEL) - 1)], "docker"],  # docker
+    ]
+)
 by_idStackOverFlow = gr.Interface(
     fn=apply_model_by_id,
     inputs=[
