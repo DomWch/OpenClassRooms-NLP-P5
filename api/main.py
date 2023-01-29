@@ -138,7 +138,11 @@ async def webhook(request: Request):
         if error:
             print("Error", error)
         print(output)
-    sshkey = json.loads(os.environ.get("GITHUB_KEY", False))
+    sshkey = (
+        json.loads(os.environ.get("GITHUB_KEY"))
+        if os.environ.get("GITHUB_KEY")
+        else False
+    )
     commits = body.get("commits", [])
     if sshkey:
         print("got sshkey")
@@ -156,7 +160,11 @@ async def webhook(request: Request):
         ]
         if len(modified) > 0:
             process = subprocess.Popen(
-                ["bash", "/code/api/majapi.sh"],
+                [
+                    "bash",
+                    "/code/api/majapi.sh",
+                    body.get("head_commit", {}).get("message", ""),
+                ],
                 stdout=subprocess.PIPE,
             )
             output, error = process.communicate()
@@ -201,8 +209,7 @@ async def get_question_by_tag(
 
     def chunk_emitter():
         good_res = []
-        bad_counter = 0
-        for question in resp["items"]:
+        for i, question in enumerate(resp["items"], start=1):
             prediction = apply_model(
                 title=question["title"],
                 version_model=version_model,
@@ -210,13 +217,11 @@ async def get_question_by_tag(
             )
             if prediction[prediction["tag"] == tag]["pred"][0]:
                 good_res.append(question["question_id"])
-                yield f'{len(good_res)}/{bad_counter} {question["question_id"]} '
+                yield f'{len(good_res)} sur {i} {question["question_id"]} '
                 # TODO compare prediction & tags
-            else:
-                bad_counter += 1
             if len(good_res) >= get_nb:
                 break
-        yield f'{(len(good_res)/bad_counter):.2%} {" ".join(str(good_res))}'
+        yield f'{(len(good_res)/(i)):.2%} {", ".join(str(good_res))}'
 
     # return [
     #     {
@@ -262,6 +267,7 @@ ids_python = [
     75274608,
     75274505,
 ]
+ids_javascript = [75278877, 75278828, 75278824, 75278802, 75278777]
 ids_java = [
     75277724,
     75277601,
@@ -337,6 +343,10 @@ exemples_ids = (
     [
         [questions_id, "modelsOvR_1/LogisticRegression", "python"]
         for questions_id in ids_python
+    ]
+    + [
+        [questions_id, "USE_21tags/kerasUSE", "javascript"]
+        for questions_id in ids_javascript
     ]
     + [
         [questions_id, "modelsOvR_1/LogisticRegression", "java"]
