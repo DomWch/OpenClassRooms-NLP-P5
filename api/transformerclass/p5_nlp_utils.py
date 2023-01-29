@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import gensim
-import pyLDAvis.gensim as pyLDA
+import pyLDAvis.gensim_models as pyLDA
 from sklearn.base import BaseEstimator, TransformerMixin
 from tensorflow import keras
 from sklearn import (
@@ -93,6 +93,37 @@ class TextCleaning:
         return df
 
     @staticmethod
+    def cleaning_text(title: str, body: str | None = None, nlp=None) -> tuple:
+        """return tuple str (lemma,bert)"""
+        if not nlp:
+            nlp = nlp = spacy.load("en_core_web_sm")
+        title_clean = " ".join(
+            [
+                token.lemma_
+                for token in nlp(title)
+                if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"] and not token.is_stop
+            ]
+        ).lower()
+        if body:
+            soup = BeautifulSoup(body, features="html.parser")
+            # test avec code?
+            # code = " ".join([code.get_text() for code in soup.find_all("code")])
+            body_clean = " ".join(
+                [
+                    token.lemma_
+                    for token in nlp(
+                        " ".join([p.get_text() for p in soup.find_all("p")])
+                    )
+                    if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"]
+                    and not token.is_stop
+                ]
+            ).lower()
+        return (
+            f"{title_clean} {body_clean if body else ''}",
+            f'{title.strip()} {" ".join([p.get_text() for p in soup.find_all("p")]).strip() if body else ""}'.lower(),
+        )
+
+    @staticmethod
     def cleaning_v2(df: pd.DataFrame()):
         """return separate cleaning for BERT"""
         nlp = spacy.load("en_core_web_sm")
@@ -116,32 +147,9 @@ class TextCleaning:
         for index, row in df.iterrows():
             bar.update(index)
             #     print(index, row["Title"])
-            title = nlp(row["Title"])
-            title_clean = " ".join(
-                [
-                    token.lemma_
-                    for token in title
-                    if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"]
-                    and not token.is_stop
-                ]
-            ).lower()
-            # print(row["Title_clean"])
-            soup = BeautifulSoup(row["Body"], features="lxml")
-            row["code"] = " ".join([code.get_text() for code in soup.find_all("code")])
-            body_clean = " ".join(
-                [
-                    token.lemma_
-                    for token in nlp(
-                        " ".join([p.get_text() for p in soup.find_all("p")])
-                    )
-                    if token.pos_ in ["VERB", "NOUN", "PROPN", "ADP"]
-                    and not token.is_stop
-                ]
-            ).lower()
-            row["Token_lemma"] = f"{title_clean} {body_clean}"  # test avec code?
-            row[
-                "Token_BERT"
-            ] = f'{row["Title"].strip()} {" ".join([p.get_text().strip() for p in soup.find_all("p")])}'.lower()
+            row["Token_lemma"], row["Token_BERT"] = TextCleaning.cleaning_text(
+                title=row["Title"], body=row["Body"], nlp=nlp
+            )
             df.iloc[index] = row
 
         bar.finish()
