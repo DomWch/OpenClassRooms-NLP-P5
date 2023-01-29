@@ -121,19 +121,28 @@ async def history(version: str = "**", model: str = "*"):
 async def webhook(request: Request):
     body = await request.json()
     print(body)
-    ## TODO on commit download kaggle output
-    # process = subprocess.Popen(
-    #     f"kaggle kernels output waechter/p5-nlp-tfidf-onevsrest -p /data/{name}".split(),
-    #     stdout=subprocess.PIPE,
-    # )
-    # output, error = process.communicate()
-    # return {"error": error, "output": output}
+    if (
+        body.get("head_commit", {})
+        .get("message", "")
+        .startswith("Kaggle Notebook | p5-nlp-Tfidf-OneVsRest |")
+    ):
+        print("New kaggle output data", "Starting download...", sep="\n")
+        # on commit download kaggle output
+        current_time = datetime.now()
+        name = f"{current_time.month}_{current_time.day}_{current_time.hour}_{current_time.minute}"
+        process = subprocess.Popen(
+            f"kaggle kernels output waechter/p5-nlp-tfidf-onevsrest -p /data/{name}".split(),
+            stdout=subprocess.PIPE,
+        )
+        output, error = process.communicate()
+        if error:
+            print("Error", error)
+        print(output)
     sshkey = json.loads(os.environ.get("GITHUB_KEY", False))
     commits = body.get("commits", [])
     if sshkey:
-        modified = [
-            modif for modif in commits.get("modified", []) for commit in commits
-        ]
+        print("got sshkey")
+        modified = [modif for commit in commits for modif in commit.get("modified", [])]
         print(modified)
         modified = [
             modif
@@ -151,7 +160,9 @@ async def webhook(request: Request):
                 stdout=subprocess.PIPE,
             )
             output, error = process.communicate()
-            print(output, error)
+            if error:
+                print("Error", error)
+            print(output)
     return 200
 
 
@@ -170,7 +181,13 @@ async def download_history(name: str):
 
 
 @app.get("/questions/{tag}")
-async def get_question_by_tag(tag: str, version_model="modelsOvR_1/LogisticRegression"):
+async def get_question_by_tag(
+    tag: str, version_model: str = "modelsOvR_1/LogisticRegression", get_nb: int = 5
+):
+    """
+    Return `get_nb` (default 5) newest question id correctly tagged by model `version_model`for given `tag`
+    Ex: https://domw-p5-nlp.hf.space/questions/git?version_model=USE_21tags/kerasUSE
+    """
     SITE = StackAPI("stackoverflow")
     resp = SITE.fetch(
         "questions",
@@ -197,6 +214,8 @@ async def get_question_by_tag(tag: str, version_model="modelsOvR_1/LogisticRegre
                 # TODO compare prediction & tags
             else:
                 bad_counter += 1
+            if len(good_res) >= get_nb:
+                break
         yield f'{(len(good_res)/bad_counter):.2%} {" ".join(str(good_res))}'
 
     # return [
@@ -225,7 +244,6 @@ _MODEL = [
     ]
 ]
 ids_python = [
-    75275227,
     75276194,
     75275997,
     75275646,
