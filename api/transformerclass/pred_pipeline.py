@@ -50,15 +50,34 @@ def apply_model(
     # }
     # print("Model paramétre:", description, sep="\n")
     match version_model[1]:  # TODO Word2Vec, bert, LDA?
-        case "kerasUSE":
-            # https://stackoverflow.com/questions/2138873/cleanest-way-to-get-last-item-from-python-iterator
-            # *_, path = Path("/data").glob(f"{version}/{model}_score.csv")
-            # path = path.parent
-            with open(path / "best_limits_use.json", "r") as f:
-                best_limits = json.loads(f.read())
-            text_lemma = text_clean[0]
-            encoder = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
-            test_sentences_encoded = encoder([text_lemma])
+        case "kerasUSE" | "BERT" | "Word2Vec":
+            if version_model[1] == "kerasUSE":
+                with open(path / "best_limits_use.json", "r") as f:
+                    best_limits = json.loads(f.read())
+                text_lemma = text_clean[0]
+                encoder = hub.load(
+                    "https://tfhub.dev/google/universal-sentence-encoder/4"
+                )
+                test_sentences_encoded = encoder([text_lemma])
+            elif version_model[1] == "BERT":
+                with open(path / "best_limits_bert.json", "r") as f:
+                    best_limits = json.loads(f.read())
+                encoder = tf.keras.models.load_model(
+                    path / "bert_base_uncased",
+                    options=tf.saved_model.LoadOptions(
+                        allow_partial_checkpoint=False,
+                        experimental_io_device=None,
+                        experimental_skip_checkpoint=True,
+                        experimental_variable_policy=None,
+                    ),
+                )
+                test_sentences_encoded = encoder([text_clean[1]])
+            elif version_model[1] == "Word2Vec":
+                version_model[1] = "kerasWord2Vec"
+                with open(path / "best_limits_kerasword2vec.json", "r") as f:
+                    best_limits = json.loads(f.read())
+                test_sentences_encoded = [text_clean[0]]
+
             pipeline = tf.keras.models.load_model(
                 path / version_model[1],
                 options=tf.saved_model.LoadOptions(

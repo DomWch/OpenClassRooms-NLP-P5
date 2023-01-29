@@ -60,6 +60,7 @@ _MODEL = [
         "LogisticRegression",
         "TfidfOvRSVC",
         "TfidfOvRestSvc",
+        "Word2Vec",
     ]
 ]
 
