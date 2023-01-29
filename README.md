@@ -1,5 +1,8 @@
 # OpenClassRooms-NLP-P5
 
+# Final model prediction api
+https://domw-p5-nlp.hf.space on https://huggingface.co/spaces/Domw/p5-nlp
+
 # Install
 
 ## install docker and docker compose plugin
@@ -18,6 +21,3 @@ git clone https://github.com/DomWch/OpenClassRooms-NLP-P5
 ```bash
 docker compose up
 ```
-
-# Final model prediction api
-https://domw-p5-nlp.hf.space on https://huggingface.co/spaces/Domw/p5-nlp
