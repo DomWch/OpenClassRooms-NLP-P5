@@ -138,14 +138,10 @@ async def webhook(request: Request):
         if error:
             print("Error", error)
         print(output)
-    sshkey = (
-        json.loads(os.environ.get("GITHUB_KEY"))
-        if os.environ.get("GITHUB_KEY")
-        else False
-    )
-    commits = body.get("commits", [])
-    if sshkey:
+
+    if os.environ.get("GITHUB_KEY"):
         print("got sshkey")
+        commits = body.get("commits", [])
         modified = [modif for commit in commits for modif in commit.get("modified", [])]
         print(modified)
         modified = [
