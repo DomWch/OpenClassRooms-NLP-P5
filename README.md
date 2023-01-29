@@ -19,5 +19,5 @@ git clone https://github.com/DomWch/OpenClassRooms-NLP-P5
 docker compose up
 ```
 
-# Final model prediction api (USE)
-https://huggingface.co/spaces/Domw/p5-nlp
+# Final model prediction api
+https://domw-p5-nlp.hf.space on https://huggingface.co/spaces/Domw/p5-nlp
