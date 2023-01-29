@@ -6,9 +6,10 @@ import subprocess
 import os
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
 import pandas as pd
 import gradio as gr
+from stackapi import StackAPI
 
 from api.transformerclass.pred_pipeline import (
     apply_model,
@@ -108,6 +109,45 @@ async def download_history(name: str):
 
     output, error = process.communicate()
     return {"error": error, "output": output}
+
+
+@app.get("/questions/{tag}")
+async def get_question_by_tag(tag: str, version_model="modelsOvR_1/LogisticRegression"):
+    SITE = StackAPI("stackoverflow")
+    resp = SITE.fetch(
+        "questions",
+        order="desc",
+        sort="creation",
+        tagged=tag,
+        site="stackoverflow",
+        filter="!Lby_WhrR-.*oagWOboYqX0",
+    )
+    # print(resp)
+
+    def chunk_emitter():
+        good_res = []
+        bad_counter = 0
+        for question in resp["items"]:
+            question_text, prediction, tags = apply_model_by_id(
+                question["question_id"], version_model=version_model
+            )
+            if prediction[prediction["tag"] == tag]["pred"][0]:
+                good_res.append(question["question_id"])
+                yield f'{bad_counter} {len(good_res)} {question["question_id"]}'
+                # TODO compare prediction & tags
+            else:
+                bad_counter += 1
+        yield f'{(len(good_res)/bad_counter):.2%} {" ".join(good_res)}'
+
+    # return [
+    #     {
+    #         "question_id": question["question_id"],
+    #         "title": question["title"],
+    #         "tags": question["tags"],
+    #     }
+    #     for question in resp["items"]
+    # ]
+    return StreamingResponse(chunk_emitter())
 
 
 _MODEL = [
