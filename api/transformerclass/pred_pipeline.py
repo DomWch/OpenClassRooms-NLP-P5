@@ -15,11 +15,6 @@ from stackapi import StackAPI
 from . import p5_nlp_utils
 
 
-def is_the_only_string_within_a_tag(s):
-    """Return True if this string is the only child of its parent tag."""
-    return s == s.parent.string
-
-
 def apply_model(
     title: str,
     version_model: str,

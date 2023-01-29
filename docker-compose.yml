@@ -49,6 +49,7 @@ services:
       - frontend
     volumes:
       - ./kaggle/data:/data
+      - ./notebooks:/notebooks
       - ./api:/code/api # for dev so reload update on change
     command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
       

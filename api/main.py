@@ -26,6 +26,63 @@ TEMPLATE_ROOT = (
 TEMPLATE_SCORES_ALL = "<div>Synthese f1-scores par modéle</div>{synthese}</br>{scores_html}"  # scores_syntheses, X*TEMPLATE_SCORES
 
 
+def read(path):
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.get("/merge_notebook")
+async def merge_notebook():
+    tfidf = read("/notebooks/p5-nlp-tfidf-onevsrest.ipynb")
+    word2vec = read("/notebooks/p5-nlp-word2veckeras.ipynb")
+    bert = read("/notebooks/p5-nlp-bert.ipynb")
+    use = read("/notebooks/p5-nlp-use.ipynb")
+    lda = read("/notebooks/p5-nlp-lda.ipynb")
+
+    def pick_cell_generator():
+        part = 0
+        for tfidf_cell, word2vec_cell, bert_cell, use_cell, lda_cell in zip(
+            tfidf["cells"], word2vec["cells"], bert["cells"], use["cells"], lda["cells"]
+        ):
+            if tfidf_cell["cell_type"] == "code":
+                max_output = max(
+                    [
+                        len(tfidf_cell.get("outputs", [])),
+                        len(word2vec_cell.get("outputs", [])),
+                        len(bert_cell.get("outputs", [])),
+                        len(use_cell.get("outputs", [])),
+                        len(lda_cell.get("outputs", [])),
+                    ]
+                )
+                if max_output > 1:
+                    if max_output == len(word2vec_cell.get("outputs", [])):
+                        res = word2vec_cell
+                        part = 1
+                    elif max_output == len(bert_cell.get("outputs", [])):
+                        res = bert_cell
+                        part = 2
+                    elif max_output == len(use_cell.get("outputs", [])):
+                        res = use_cell
+                        part = 3
+                    elif max_output == len(lda_cell.get("outputs", [])):
+                        res = lda_cell
+                        part = 4
+                else:
+                    res = [tfidf_cell, word2vec_cell, bert_cell, use_cell, lda_cell][
+                        part
+                    ]
+            else:
+                res = [tfidf_cell, word2vec_cell, bert_cell, use_cell, lda_cell][part]
+            yield res
+
+    tfidf["cells"] = [test for test in pick_cell_generator()]
+    with open(
+        "/notebooks/Waechter_Dominique_2_notebook_test_122022.ipynb", "w"
+    ) as outfile:
+        json.dump(tfidf, outfile)
+    return 200, "Ok"
+
+
 @app.get("/score_history")
 async def history(version: str = "**", model: str = "*"):
     scoresf1, rep = get_history(version, model)
