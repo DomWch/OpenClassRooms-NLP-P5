@@ -124,6 +124,31 @@ _MODEL = [
         "Word2Vec",
     ]
 ]
+exemples_ids = [
+    [75275230, "modelsOvR_1/LogisticRegression", "python"],  # python #good
+    [75275227, "modelsOvR_1/LogisticRegression", "python"],  # python
+    [75275209, _MODEL[randrange(len(_MODEL) - 1)], "python"],  # python
+    [75275263, _MODEL[randrange(len(_MODEL) - 1)], "java"],  # java #good
+    [75275245, _MODEL[randrange(len(_MODEL) - 1)], "javascript"],  # javascript
+    [74611350, _MODEL[randrange(len(_MODEL) - 1)], "docker"],  # docker
+]
+by_idStackOverFlow = gr.Interface(
+    fn=apply_model_by_id,
+    inputs=[
+        gr.Number(precision=0, label="StackOverFlow ID"),
+        gr.Dropdown(_MODEL, label="Model"),
+        gr.Textbox(interactive=False, label="Tag"),
+    ],
+    outputs=[
+        gr.HTML(label="Question"),
+        gr.Dataframe(label="Tags prédit"),
+        gr.JSON(label="Tags réels"),
+    ],
+    examples=exemples_ids,
+    title="From StackOverFlow",
+    description="Predict tags from StackOverFlow questions</br>\
+    [newest python questions](https://stackoverflow.com/questions/tagged/python?tab=Newest)",
+)
 
 examples = [
     ["git head main merge rebase", _MODEL[randrange(len(_MODEL) - 1)]],
@@ -137,18 +162,6 @@ by_text = gr.Interface(
     outputs=[gr.Dataframe(label="Tag prédit")],
     examples=examples,
     title="From text",
-)
-
-by_idStackOverFlow = gr.Interface(
-    fn=apply_model_by_id,
-    inputs=[
-        gr.Number(precision=0, label="StackOverFlow ID"),
-        gr.Dropdown(_MODEL, label="Model"),
-    ],
-    outputs=[gr.HTML(label="Question"), gr.Dataframe(label="Tag prédit")],
-    examples=[[74611350, _MODEL[randrange(len(_MODEL) - 1)]]],
-    title="From StackOverFlow",
-    description="NLP to predict tags from StackOverFlow questions",
 )
 
 historyInterface = gr.Interface(
@@ -165,8 +178,8 @@ historyInterface = gr.Interface(
 app = gr.mount_gradio_app(
     app,
     gr.TabbedInterface(
-        [by_text, by_idStackOverFlow, historyInterface],
-        ["From text", "From StackOverFlow", "Scores"],
+        [by_idStackOverFlow, by_text, historyInterface],
+        ["From StackOverFlow id", "From text", "Scores"],
         title="p5 NLP Openclassrooms",
     ),
     path="/",

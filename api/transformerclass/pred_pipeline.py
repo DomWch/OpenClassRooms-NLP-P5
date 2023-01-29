@@ -102,17 +102,23 @@ def apply_model(
             return 404
 
 
-def apply_model_by_id(question_id: int, version_model: str) -> tuple:
+def apply_model_by_id(
+    question_id: int, version_model: str, _tag: str | None = None
+) -> tuple:
     """return tuple str question, pd.DataFrame prediction"""
     SITE = StackAPI("stackoverflow")
     resp = SITE.fetch("questions/{ids}", ids=[question_id], filter="withbody")
     print(resp)
     title = resp["items"][0]["title"]
     body = resp["items"][0]["body"]
-    return f"<h1>{title}</h1>\n{body}", apply_model(
-        title=resp["items"][0]["title"],
-        body=resp["items"][0]["body"],
-        version_model=version_model,
+    return (
+        f"<h1>{title}</h1>\n{body}",
+        apply_model(
+            title=resp["items"][0]["title"],
+            body=resp["items"][0]["body"],
+            version_model=version_model,
+        ),
+        resp["items"][0]["tags"],
     )
 
 
