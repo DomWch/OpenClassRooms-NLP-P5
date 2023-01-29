@@ -164,10 +164,30 @@ _MODEL = [
         "Word2Vec",
     ]
 ]
+
 exemples_ids = [
-    [75275230, "modelsOvR_1/LogisticRegression", "python"],  # python #good
-    [75275227, "modelsOvR_1/LogisticRegression", "python"],  # python
-    [75275209, _MODEL[randrange(len(_MODEL) - 1)], "python"],  # python
+    [questions_id, "modelsOvR_1/LogisticRegression", "python"]
+    for questions_id in [
+        75275227,
+        75276194,
+        75275997,
+        75275646,
+        75275639,
+        75275543,
+        75275500,
+        75275434,
+        75275407,
+        75275321,
+        75275256,
+        75275230,
+        75275158,
+        75274973,
+        75274791,
+        75274704,
+        75274608,
+        75274505,
+    ]
+] + [
     [75275263, _MODEL[randrange(len(_MODEL) - 1)], "java"],  # java #good
     [75275245, _MODEL[randrange(len(_MODEL) - 1)], "javascript"],  # javascript
     [74611350, _MODEL[randrange(len(_MODEL) - 1)], "docker"],  # docker
@@ -185,6 +205,7 @@ by_idStackOverFlow = gr.Interface(
         gr.JSON(label="Tags réels"),
     ],
     examples=exemples_ids,
+    examples_per_page=25,
     title="From StackOverFlow",
     description="Predict tags from StackOverFlow questions</br>\
     [newest python questions](https://stackoverflow.com/questions/tagged/python?tab=Newest)",
