@@ -21,20 +21,13 @@ def is_the_only_string_within_a_tag(s):
 
 
 def apply_model(
-    text: str | int,
-    version_model: str
+    title: str,
+    version_model: str,
+    body: str | None = None,
     # model: Literal["kerasUSE", "BERT", "kerasWord2Vec", "LogisticRegression"],
     # version: str = "**",
 ):
-    if isinstance(text, int):
-        SITE = StackAPI("stackoverflow")
-        resp = SITE.fetch("questions/{ids}", ids=[text], filter="withbody")
-        print(resp)
-        text_clean = p5_nlp_utils.TextCleaning.cleaning_text(
-            title=resp["items"][0]["title"], body=resp["items"][0]["body"]
-        )
-    else:
-        text_clean = p5_nlp_utils.TextCleaning.cleaning_text(title=text)
+    text_clean = p5_nlp_utils.TextCleaning.cleaning_text(title=title, body=body)
     print(text_clean)
     version_model = version_model.split("/")  # [version, model]
     # print(version_model)
@@ -112,6 +105,20 @@ def apply_model(
             ).T.sort_values(by="pred", ascending=False)
         case _:
             return 404
+
+
+def apply_model_by_id(question_id: int, version_model: str) -> tuple:
+    """return tuple str question, pd.DataFrame prediction"""
+    SITE = StackAPI("stackoverflow")
+    resp = SITE.fetch("questions/{ids}", ids=[question_id], filter="withbody")
+    print(resp)
+    title = resp["items"][0]["title"]
+    body = resp["items"][0]["body"]
+    return f"<h1>{title}</h1>\n{body}", apply_model(
+        title=resp["items"][0]["title"],
+        body=resp["items"][0]["body"],
+        version_model=version_model,
+    )
 
 
 TEMPLATE_SCORES = "Version: {version} Model: {model_link} {date}</br>{scores_html}</br></br>"  # version_name, link_model, datetime.fromtimestamp(score.stat().st_mtime).strftime('%A %d %B %Y %H:%M'), score_df.to_html()

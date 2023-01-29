@@ -10,7 +10,11 @@ from fastapi.responses import HTMLResponse, JSONResponse
 import pandas as pd
 import gradio as gr
 
-from api.transformerclass.pred_pipeline import apply_model, get_history
+from api.transformerclass.pred_pipeline import (
+    apply_model,
+    get_history,
+    apply_model_by_id,
+)
 
 app = FastAPI()
 
@@ -79,12 +83,12 @@ by_text = gr.Interface(
 )
 
 by_idStackOverFlow = gr.Interface(
-    fn=apply_model,
+    fn=apply_model_by_id,
     inputs=[
         gr.Number(precision=0, label="StackOverFlow ID"),
         gr.Dropdown(_MODEL, label="Model"),
     ],
-    outputs=[gr.Dataframe(label="Tag prédit")],
+    outputs=[gr.HTML(label="Question"), gr.Dataframe(label="Tag prédit")],
     examples=[[74611350, _MODEL[randrange(len(_MODEL) - 1)]]],
     title="From StackOverFlow",
     description="NLP to predict tags from StackOverFlow questions",
