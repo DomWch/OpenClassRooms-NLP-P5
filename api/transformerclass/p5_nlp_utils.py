@@ -491,10 +491,10 @@ class LDA:
 
 class Bert:
     @staticmethod
-    def get_tokenizer(model_max_length, save_path="bert_base_uncased/"):
+    def get_tokenizer(model_max_length, save_path="bert_base_uncased"):
         if not os.path.exists(save_path):
             slow_tokenizer = BertTokenizer.from_pretrained(
-                "bert-base-uncased", model_max_length=model_max_length
+                save_path, model_max_length=model_max_length
             )
             try:
                 os.makedirs(save_path)

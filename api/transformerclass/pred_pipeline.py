@@ -9,15 +9,11 @@ import pandas as pd
 import tensorflow as tf
 import tensorflow_hub as hub
 from bs4 import BeautifulSoup
+import joblib
 
 from stackapi import StackAPI
 
 from . import p5_nlp_utils
-
-
-def is_the_only_string_within_a_tag(s):
-    """Return True if this string is the only child of its parent tag."""
-    return s == s.parent.string
 
 
 def apply_model(
@@ -43,7 +39,7 @@ def apply_model(
     # }
     # print("Model paramétre:", description, sep="\n")
     match version_model[1]:  # TODO Word2Vec, bert, LDA?
-        case "kerasUSE" | "BERT" | "Word2Vec":
+        case "kerasUSE" | "BERT" | "Word2Vec" | "kerasWord2Vec":
             if version_model[1] == "kerasUSE":
                 with open(path / "best_limits_use.json", "r") as f:
                     best_limits = json.loads(f.read())
@@ -55,21 +51,25 @@ def apply_model(
             elif version_model[1] == "BERT":
                 with open(path / "best_limits_bert.json", "r") as f:
                     best_limits = json.loads(f.read())
-                encoder = tf.keras.models.load_model(
-                    path / "bert_base_uncased",
-                    options=tf.saved_model.LoadOptions(
-                        allow_partial_checkpoint=False,
-                        experimental_io_device=None,
-                        experimental_skip_checkpoint=True,
-                        experimental_variable_policy=None,
-                    ),
+                encoder = p5_nlp_utils.Bert.get_tokenizer(
+                    model_max_length=description["BERT"]["max_length"],
+                    save_path=path / "bert_base_uncased",
                 )
                 test_sentences_encoded = encoder([text_clean[1]])
-            elif version_model[1] == "Word2Vec":
+            elif version_model[1] in ["Word2Vec", "kerasWord2Vec"]:
                 version_model[1] = "kerasWord2Vec"
                 with open(path / "best_limits_kerasword2vec.json", "r") as f:
                     best_limits = json.loads(f.read())
-                test_sentences_encoded = [text_clean[0]]
+                from_disk = joblib.load(
+                    open(path / "w2v_vectorize_layer_config.joblib", "rb")
+                )
+                vectorization_layer = tf.keras.layers.TextVectorization.from_config(
+                    from_disk["config"]
+                )
+                # You have to call `adapt` with some dummy data (BUG in Keras)
+                vectorization_layer.adapt(tf.data.Dataset.from_tensor_slices(["xyz"]))
+                vectorization_layer.set_weights(from_disk["weights"])
+                test_sentences_encoded = vectorization_layer([text_clean[0]])
 
             pipeline = tf.keras.models.load_model(
                 path / version_model[1],
@@ -80,6 +80,16 @@ def apply_model(
                     experimental_variable_policy=None,
                 ),
             )
+            if version_model[1] == "kerasWord2Vec":
+                # print(pipeline.layers)
+                pipeline.layers.pop(0)
+                layers = [l for l in pipeline.layers]
+                x = layers[0].output
+                for i in range(1, len(layers)):
+                    x = layers[i](x)
+                pipeline = tf.keras.Model(inputs=layers[0].output, outputs=x)
+                # print("apres",pipeline.layers)
+
             preds = pipeline.predict(test_sentences_encoded)
             return pd.DataFrame(
                 {
@@ -107,17 +117,23 @@ def apply_model(
             return 404
 
 
-def apply_model_by_id(question_id: int, version_model: str) -> tuple:
+def apply_model_by_id(
+    question_id: int, version_model: str, _tag: str | None = None
+) -> tuple:
     """return tuple str question, pd.DataFrame prediction"""
     SITE = StackAPI("stackoverflow")
     resp = SITE.fetch("questions/{ids}", ids=[question_id], filter="withbody")
     print(resp)
     title = resp["items"][0]["title"]
     body = resp["items"][0]["body"]
-    return f"<h1>{title}</h1>\n{body}", apply_model(
-        title=resp["items"][0]["title"],
-        body=resp["items"][0]["body"],
-        version_model=version_model,
+    return (
+        f"<h1>{title}</h1>\n{body}",
+        apply_model(
+            title=resp["items"][0]["title"],
+            body=resp["items"][0]["body"],
+            version_model=version_model,
+        ),
+        resp["items"][0]["tags"],
     )
 
 
@@ -160,5 +176,7 @@ def get_history(version: str = "**", model: str = "*") -> tuple:
             ),
             scores_html=score_df.to_html(),
         )
-    scoresf1 = pd.DataFrame(scoresf1).T.sort_values(by="micro avg", ascending=False)
+    scoresf1 = (
+        pd.DataFrame(scoresf1).T.sort_values(by="micro avg", ascending=False).round(2)
+    )
     return scoresf1.reset_index(names="Model"), rep
