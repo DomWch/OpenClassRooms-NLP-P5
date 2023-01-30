@@ -29,7 +29,7 @@ _MODEL = [
         "LogisticRegression",
         "TfidfOvRSVC",
         "TfidfOvRestSvc",
-        # "Word2Vec",
+        "Word2Vec",
     ]
 ]
 
@@ -149,9 +149,9 @@ async def webhook(request: Request):
             for modif in modified
             if modif
             in [
-                "api/main.py"
-                | "api/transformerclass/pred_pipeline.py"
-                | "api/transformerclass/p5_nlp_utils.py"
+                "api/main.py",
+                "api/transformerclass/pred_pipeline.py",
+                "api/transformerclass/p5_nlp_utils.py",
             ]
         ]
         if len(modified) > 0:
@@ -217,7 +217,7 @@ async def get_question_by_tag(
                 # TODO compare prediction & tags
             if len(good_res) >= get_nb:
                 break
-        yield f'{(len(good_res)/(i)):.2%} {", ".join(str(good_res))}'
+        yield f"{(len(good_res)/(i)):.2%} {str(good_res)}"
 
     # return [
     #     {
@@ -230,20 +230,6 @@ async def get_question_by_tag(
     return StreamingResponse(chunk_emitter())
 
 
-_MODEL = [
-    f"{model.parent.stem}/{model.stem.split('_')[0]}"
-    for model in Path("/data").glob(f"**/*_score.csv")
-    if model.stem.split("_")[0]
-    in [
-        "kerasUSE",
-        "BERT",
-        "kerasWord2Vec",
-        "LogisticRegression",
-        "TfidfOvRSVC",
-        "TfidfOvRestSvc",
-        "Word2Vec",
-    ]
-]
 ids_python = [
     75276194,
     75275997,
@@ -353,6 +339,8 @@ exemples_ids = (
         [74611350, _MODEL[randrange(len(_MODEL) - 1)], "docker"],  # docker
     ]
 )
+FLAG_OPTIONS = ["Wrong", "Incorrect", "Good"]
+FLAG_DIR = "~/flag"
 by_idStackOverFlow = gr.Interface(
     fn=apply_model_by_id,
     inputs=[
@@ -367,6 +355,10 @@ by_idStackOverFlow = gr.Interface(
     ],
     examples=exemples_ids,
     examples_per_page=25,
+    allow_flagging="manual",
+    flagging_options=FLAG_OPTIONS,
+    flagging_callback=gr.CSVLogger(),
+    flagging_dir=FLAG_DIR,
     title="From StackOverFlow",
     description="Predict tags from StackOverFlow questions</br>\
     [newest python questions](https://stackoverflow.com/questions/tagged/python?tab=Newest)",
@@ -384,6 +376,10 @@ by_text = gr.Interface(
     outputs=[gr.Dataframe(label="Tag prédit")],
     examples=examples,
     title="From text",
+    allow_flagging="manual",
+    flagging_options=FLAG_OPTIONS,
+    flagging_callback=gr.CSVLogger(),
+    flagging_dir=FLAG_DIR,
 )
 
 historyInterface = gr.Interface(
@@ -394,6 +390,7 @@ historyInterface = gr.Interface(
     ],
     outputs=[gr.Dataframe(label="synthese scores"), gr.HTML(label="scores par tag")],
     examples=[["**", "*"], ["**", "kerasUSE"]],
+    allow_flagging="never",
     title="Scores",
 )
 

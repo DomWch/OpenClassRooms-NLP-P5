@@ -9,6 +9,7 @@ import pandas as pd
 import tensorflow as tf
 import tensorflow_hub as hub
 from bs4 import BeautifulSoup
+import joblib
 
 from stackapi import StackAPI
 
@@ -50,21 +51,25 @@ def apply_model(
             elif version_model[1] == "BERT":
                 with open(path / "best_limits_bert.json", "r") as f:
                     best_limits = json.loads(f.read())
-                encoder = tf.keras.models.load_model(
-                    path / "bert_base_uncased",
-                    options=tf.saved_model.LoadOptions(
-                        allow_partial_checkpoint=False,
-                        experimental_io_device=None,
-                        experimental_skip_checkpoint=True,
-                        experimental_variable_policy=None,
-                    ),
+                encoder = p5_nlp_utils.Bert.get_tokenizer(
+                    model_max_length=description["BERT"]["max_length"],
+                    save_path=path / "bert_base_uncased",
                 )
                 test_sentences_encoded = encoder([text_clean[1]])
             elif version_model[1] == "Word2Vec":
                 version_model[1] = "kerasWord2Vec"
                 with open(path / "best_limits_kerasword2vec.json", "r") as f:
                     best_limits = json.loads(f.read())
-                test_sentences_encoded = [text_clean[0]]
+                from_disk = joblib.load(
+                    open(path / "w2v_vectorize_layer_config.joblib", "rb")
+                )
+                vectorization_layer = tf.keras.layers.TextVectorization.from_config(
+                    from_disk["config"]
+                )
+                # You have to call `adapt` with some dummy data (BUG in Keras)
+                vectorization_layer.adapt(tf.data.Dataset.from_tensor_slices(["xyz"]))
+                vectorization_layer.set_weights(from_disk["weights"])
+                test_sentences_encoded = vectorization_layer([text_clean[0]])
 
             pipeline = tf.keras.models.load_model(
                 path / version_model[1],
@@ -75,6 +80,16 @@ def apply_model(
                     experimental_variable_policy=None,
                 ),
             )
+            if version_model[1] == "kerasWord2Vec":
+                # print(pipeline.layers)
+                pipeline.layers.pop(0)
+                layers = [l for l in pipeline.layers]
+                x = layers[0].output
+                for i in range(1, len(layers)):
+                    x = layers[i](x)
+                pipeline = tf.keras.Model(inputs=layers[0].output, outputs=x)
+                # print("apres",pipeline.layers)
+
             preds = pipeline.predict(test_sentences_encoded)
             return pd.DataFrame(
                 {
