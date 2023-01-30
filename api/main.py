@@ -31,6 +31,7 @@ _MODEL = [
         "TfidfOvRSVC",
         "TfidfOvRestSvc",
         "Word2Vec",
+        "kerasWord2Vec",
     ]
 ]
 
@@ -251,6 +252,7 @@ ids_python = [
     75274505,
 ]
 ids_javascript = [75278877, 75278828, 75278824, 75278802, 75278777]
+ids_git = [75288389, 75288329, 75288143, 75287879, 75287761]
 ids_java = [
     75277724,
     75277601,
@@ -332,6 +334,10 @@ exemples_ids = (
         for questions_id in ids_javascript
     ]
     + [
+        [questions_id, "Word2Vec_1_30_8_20/kerasWord2Vec", "git"]
+        for questions_id in ids_git
+    ]
+    + [
         [questions_id, "modelsOvR_1/LogisticRegression", "java"]
         for questions_id in ids_java
     ]
@@ -379,10 +385,11 @@ by_text = gr.Interface(
     outputs=[gr.Dataframe(label="Tag prédit")],
     examples=examples,
     title="From text",
-    allow_flagging="manual",
-    flagging_options=FLAG_OPTIONS,
-    flagging_callback=gr.CSVLogger(),
-    flagging_dir=FLAG_DIR,
+    allow_flagging="never",
+    #     allow_flagging="manual",
+    #     flagging_options=FLAG_OPTIONS,
+    #     flagging_callback=gr.CSVLogger(),
+    #     flagging_dir=FLAG_DIR / "text",
 )
 
 historyInterface = gr.Interface(
@@ -399,15 +406,23 @@ historyInterface = gr.Interface(
 
 
 def get_flags():
-    for path in FLAG_DIR.glob("Tag prédit/*"):
-        print(path)
-    return pd.read_csv(FLAG_DIR / "log.csv")
+    # for path in FLAG_DIR.glob("Tag prédit/*"):
+    #     print(path)
+    return (
+        pd.read_csv(FLAG_DIR / "log.csv").drop(
+            ["Tag", "Question", "Tags prédit", "Tags réels"], axis="columns"
+        )
+        if Path(FLAG_DIR / "log.csv").is_file()
+        else pd.DataFrame()
+    )
 
 
 flagsInterface = gr.Interface(
     fn=get_flags,
     inputs=None,
-    outputs=[gr.Dataframe(label="Flags")],
+    outputs=[
+        gr.Dataframe(label="Flags"),
+    ],
     # examples=[[]],
     allow_flagging="never",
     title="Flags",

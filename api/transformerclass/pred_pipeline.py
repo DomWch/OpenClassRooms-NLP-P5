@@ -39,7 +39,7 @@ def apply_model(
     # }
     # print("Model paramétre:", description, sep="\n")
     match version_model[1]:  # TODO Word2Vec, bert, LDA?
-        case "kerasUSE" | "BERT" | "Word2Vec":
+        case "kerasUSE" | "BERT" | "Word2Vec" | "kerasWord2Vec":
             if version_model[1] == "kerasUSE":
                 with open(path / "best_limits_use.json", "r") as f:
                     best_limits = json.loads(f.read())
@@ -56,7 +56,7 @@ def apply_model(
                     save_path=path / "bert_base_uncased",
                 )
                 test_sentences_encoded = encoder([text_clean[1]])
-            elif version_model[1] == "Word2Vec":
+            elif version_model[1] in ["Word2Vec", "kerasWord2Vec"]:
                 version_model[1] = "kerasWord2Vec"
                 with open(path / "best_limits_kerasword2vec.json", "r") as f:
                     best_limits = json.loads(f.read())
