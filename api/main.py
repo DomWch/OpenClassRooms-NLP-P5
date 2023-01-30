@@ -9,6 +9,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 import gradio as gr
 from stackapi import StackAPI
+import pandas as pd
 
 from .transformerclass.pred_pipeline import (
     apply_model,
@@ -340,7 +341,7 @@ exemples_ids = (
     ]
 )
 FLAG_OPTIONS = ["Wrong", "Incorrect", "Good"]
-FLAG_DIR = "~/flag"
+FLAG_DIR = Path(os.environ.get("FLAG_DIR"))
 by_idStackOverFlow = gr.Interface(
     fn=apply_model_by_id,
     inputs=[
@@ -394,11 +395,27 @@ historyInterface = gr.Interface(
     title="Scores",
 )
 
+
+def get_flags():
+    for path in FLAG_DIR.glob("Tag prédit/*"):
+        print(path)
+    return pd.read_csv(FLAG_DIR / "log.csv")
+
+
+flagsInterface = gr.Interface(
+    fn=get_flags,
+    inputs=None,
+    outputs=[gr.Dataframe(label="Flags")],
+    # examples=[[]],
+    allow_flagging="never",
+    title="Flags",
+)
+
 app = gr.mount_gradio_app(
     app,
     gr.TabbedInterface(
-        [by_idStackOverFlow, by_text, historyInterface],
-        ["From StackOverFlow id", "From text", "Scores"],
+        [by_idStackOverFlow, by_text, historyInterface, flagsInterface],
+        ["From StackOverFlow id", "From text", "Scores", "Flags"],
         title="p5 NLP Openclassrooms",
     ),
     path="/",
