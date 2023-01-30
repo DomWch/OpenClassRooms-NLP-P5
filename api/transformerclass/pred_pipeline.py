@@ -176,5 +176,7 @@ def get_history(version: str = "**", model: str = "*") -> tuple:
             ),
             scores_html=score_df.to_html(),
         )
-    scoresf1 = pd.DataFrame(scoresf1).T.sort_values(by="micro avg", ascending=False)
+    scoresf1 = (
+        pd.DataFrame(scoresf1).T.sort_values(by="micro avg", ascending=False).round(2)
+    )
     return scoresf1.reset_index(names="Model"), rep
