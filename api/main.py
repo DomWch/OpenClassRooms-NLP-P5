@@ -73,7 +73,10 @@ async def merge_notebook():
                     ]
                 )
                 if max_output > 1:
-                    if max_output == len(word2vec_cell.get("outputs", [])):
+                    if max_output == len(tfidf_cell.get("outputs", [])):
+                        res = tfidf_cell
+                        part = 0
+                    elif max_output == len(word2vec_cell.get("outputs", [])):
                         res = word2vec_cell
                         part = 1
                     elif max_output == len(bert_cell.get("outputs", [])):
@@ -90,6 +93,7 @@ async def merge_notebook():
                         part
                     ]
             else:
+                # markdown cell
                 res = [tfidf_cell, word2vec_cell, bert_cell, use_cell, lda_cell][part]
             yield res
 
