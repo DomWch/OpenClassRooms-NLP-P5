@@ -1,0 +1,3 @@
+Répértoire développement (private nécessite permission): https://github.com/DomWch/OpenClassRooms-NLP-P5/
+Code final API (public): https://huggingface.co/spaces/Domw/p5-nlp
+Point entré API (space huggingface): https://domw-p5-nlp.hf.space/?__theme=dark
